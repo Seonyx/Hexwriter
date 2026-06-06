@@ -5,7 +5,7 @@
 # each time a set of changes needs copying.
 # ============================================
 
-$src = "\\192.168.69.75\hexwriter"
+$src = "\\192.168.69.19\hexwriter"
 $dst = "C:\Users\Steve\Dropbox\VITALIS\Hexwriter\Hexwriter_web_src"
 
 Write-Host "HexWriter File Copy" -ForegroundColor Cyan
