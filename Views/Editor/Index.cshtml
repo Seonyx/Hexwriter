@@ -1,0 +1,369 @@
+@model HexWriter.Web.Models.ViewModels.BookEditor.ParagraphEditViewModel
+@{
+    Layout = "~/Views/Shared/_BookEditorLayout.cshtml";
+    ViewBag.Title = Model.ProjectName + " - Editor";
+}
+
+@section HeaderCenter {
+    <span class="editor-project-name">@Model.ProjectName</span>
+    <span class="editor-chapter-info">@(Model.ChapterNumber > 0 ? "Ch " + Model.ChapterNumber + ": " : "")@Model.ChapterTitle</span>
+}
+
+<div class="editor-container">
+    <!-- Editor Panels -->
+    <form id="editorForm" method="post" action="@Url.Action("SaveParagraph", "Editor")">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="bookProjectID" value="@Model.BookProjectID" />
+        <input type="hidden" name="paragraphID" id="paragraphID" value="@Model.ParagraphID" />
+
+        <div class="editor-panels">
+            <!-- Paragraph Panel -->
+            <div class="editor-panel panel-paragraph">
+                <div class="panel-header">
+                    <h3>Paragraph</h3>
+                    <span class="panel-uid">[@Model.UniqueID]</span>
+                </div>
+                <textarea name="paragraphText" id="paragraphText" class="editor-textarea"
+                          rows="10" placeholder="Paragraph text...">@Model.ParagraphText</textarea>
+            </div>
+
+            <!-- META Panel -->
+            <div class="editor-panel panel-meta">
+                <div class="panel-header">
+                    <h3>META</h3>
+                </div>
+                <textarea name="metaText" id="metaText" class="editor-textarea"
+                          rows="6" placeholder="META explanation...">@Model.MetaText</textarea>
+            </div>
+
+            <!-- Notes Panel -->
+            <div class="editor-panel panel-notes">
+                <div class="panel-header">
+                    <h3>Edit Notes</h3>
+                </div>
+                <textarea name="editNoteText" id="editNoteText" class="editor-textarea"
+                          rows="4" placeholder="Your editing notes...">@Model.EditNoteText</textarea>
+            </div>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="editor-search-bar" id="searchBar">
+            <input type="text" id="searchInput" class="editor-search-input" placeholder="Search paragraph text..." autocomplete="off" />
+            <button type="button" class="btn btn-sm btn-secondary" id="btnSearch">Search</button>
+            <button type="button" class="btn btn-sm btn-secondary" id="btnSearchPrev" disabled title="Previous match">&#8249; Match</button>
+            <button type="button" class="btn btn-sm btn-secondary" id="btnSearchNext" disabled title="Next match">Match &#8250;</button>
+            <span class="search-status" id="searchStatus"></span>
+            <a id="btnShowList" href="#" target="_blank" style="display:none" class="btn btn-sm btn-secondary" title="Open full list of matches in a new tab">Show List</a>
+            <button type="button" class="btn btn-sm btn-secondary search-clear" id="btnSearchClear" style="display:none" title="Clear search">&#x2715;</button>
+            <label class="search-whole-word-label">
+                <input type="checkbox" id="chkWholeWord" checked /> Whole word
+            </label>
+        </div>
+
+        <!-- Navigation + Controls Bar -->
+        <div class="editor-nav-bar">
+            <div class="editor-nav-buttons">
+                <a href="@(Model.PrevParagraphID.HasValue ? Url.Action("Index", new { projectId = Model.BookProjectID, paragraphId = Model.FirstParagraphID }) : "#")"
+                   class="btn btn-sm btn-secondary @(Model.PrevParagraphID.HasValue ? "" : "disabled")"
+                   title="First paragraph (Ctrl+Home)">First</a>
+
+                <a href="@(Model.PrevParagraphID.HasValue ? Url.Action("Index", new { projectId = Model.BookProjectID, paragraphId = Model.PrevParagraphID }) : "#")"
+                   class="btn btn-sm btn-secondary @(Model.PrevParagraphID.HasValue ? "" : "disabled")"
+                   id="btnPrev" title="Previous paragraph (Ctrl+Left)">Prev</a>
+
+                <a href="@(Model.NextParagraphID.HasValue ? Url.Action("Index", new { projectId = Model.BookProjectID, paragraphId = Model.NextParagraphID }) : "#")"
+                   class="btn btn-sm btn-secondary @(Model.NextParagraphID.HasValue ? "" : "disabled")"
+                   id="btnNext" title="Next paragraph (Ctrl+Right)">Next</a>
+
+                <a href="@(Model.NextParagraphID.HasValue ? Url.Action("Index", new { projectId = Model.BookProjectID, paragraphId = Model.LastParagraphID }) : "#")"
+                   class="btn btn-sm btn-secondary @(Model.NextParagraphID.HasValue ? "" : "disabled")"
+                   title="Last paragraph (Ctrl+End)">Last</a>
+            </div>
+
+            <div class="editor-position">
+                <span class="editor-pos-label">Position:</span>
+                <strong>@Model.GlobalPosition</strong> of <strong>@Model.TotalParagraphs</strong>
+                <span class="editor-sep">|</span>
+                <span class="editor-pos-label">Chapter:</span>
+                <select id="chapterJump" class="editor-chapter-select">
+                    @foreach (var ch in Model.ChapterList)
+                    {
+                        <option value="@Url.Action("Index", "Editor", new { projectId = Model.BookProjectID, paragraphId = ch.FirstParagraphID })"
+                                @(ch.ChapterID == Model.ChapterID ? "selected" : "")>
+                            @(ch.ChapterNumber > 0 ? "Ch " + ch.ChapterNumber + " - " : "")@ch.ChapterTitle (@ch.ParagraphCount paras)
+                        </option>
+                    }
+                </select>
+                <span class="editor-sep">|</span>
+                <span class="editor-pos-label">Go to:</span>
+                <input type="text" id="gotoInput" class="editor-goto-input" placeholder="# or ID" title="Enter a position number or paragraph ID (e.g. CH01-P0010)" />
+                <button type="button" class="btn btn-sm btn-secondary" id="btnGoto">Go</button>
+            </div>
+
+        </div>
+
+        <!-- Save bar — permanently anchored below nav, right-aligned -->
+        <div class="editor-save-bar">
+            <button type="submit" class="btn btn-sm btn-primary" id="btnSave" title="Save changes (Ctrl+S)">Save</button>
+            <span id="saveStatus" class="save-status"></span>
+        </div>
+
+    </form>
+
+    <!-- Bookmark controls (outside main form, both forms rendered to avoid Razor nesting) -->
+    <div class="editor-bookmark-bar">
+        @{Html.BeginForm("ClearBookmark", "Editor", new { projectId = Model.BookProjectID, paragraphId = Model.ParagraphID }, FormMethod.Post, new { style = Model.IsBookmarked ? "display:inline" : "display:none" });}
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-sm btn-warning" title="Remove bookmark from this paragraph">Clear Bookmark</button>
+        @{Html.EndForm();}
+        @{Html.BeginForm("SetBookmark", "Editor", new { projectId = Model.BookProjectID, paragraphId = Model.ParagraphID }, FormMethod.Post, new { style = Model.IsBookmarked ? "display:none" : "display:inline" });}
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-sm btn-secondary" title="Set bookmark on this paragraph">Set Bookmark</button>
+        @{Html.EndForm();}
+        @if (Model.BookmarkParagraphID.HasValue)
+        {
+            <a href="@Url.Action("Index", new { projectId = Model.BookProjectID, paragraphId = Model.BookmarkParagraphID.Value })"
+               class="btn btn-sm btn-info @(Model.IsBookmarked ? "disabled" : "")"
+               title="Go to bookmarked paragraph">Go to Bookmark</a>
+        }
+        else
+        {
+            <span class="btn btn-sm btn-secondary disabled">No Bookmark</span>
+        }
+    </div>
+
+    <!-- Action Bar (outside main form to avoid nested forms) -->
+    <div class="editor-footer">
+        @{Html.BeginForm("InsertParagraph", "Editor", new { projectId = Model.BookProjectID, currentParagraphId = Model.ParagraphID, before = true }, FormMethod.Post, new { style = "display:inline", id = "formInsBefore" });}
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="paraType" id="insBeforeType" value="normal" />
+            <div class="insert-btn-group" style="display:inline-flex;align-items:center;gap:0">
+                <button type="submit" class="btn btn-sm btn-secondary" style="border-radius:3px 0 0 3px;border-right:none" title="Insert before current">Ins Before</button>
+                <select id="selInsBefore" class="insert-type-select" title="Type to insert" style="height:28px;font-size:0.8em;border-radius:0 3px 3px 0;border:1px solid #aaa;padding:0 4px">
+                    <option value="normal">Paragraph</option>
+                    <option value="epigraph">Epigraph</option>
+                </select>
+            </div>
+        @{Html.EndForm();}
+        @{Html.BeginForm("InsertParagraph", "Editor", new { projectId = Model.BookProjectID, currentParagraphId = Model.ParagraphID }, FormMethod.Post, new { style = "display:inline", id = "formInsAfter" });}
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="paraType" id="insAfterType" value="normal" />
+            <div class="insert-btn-group" style="display:inline-flex;align-items:center;gap:0">
+                <button type="submit" class="btn btn-sm btn-secondary" style="border-radius:3px 0 0 3px;border-right:none" title="Insert after current (Ctrl+I)">Ins After</button>
+                <select id="selInsAfter" class="insert-type-select" title="Type to insert" style="height:28px;font-size:0.8em;border-radius:0 3px 3px 0;border:1px solid #aaa;padding:0 4px">
+                    <option value="normal">Paragraph</option>
+                    <option value="epigraph">Epigraph</option>
+                </select>
+            </div>
+        @{Html.EndForm();}
+        @{Html.BeginForm("DeleteParagraph", "Editor", new { projectId = Model.BookProjectID, paragraphId = Model.ParagraphID }, FormMethod.Post, new { style = "display:inline", id = "deleteForm", onsubmit = "return confirm('Delete this paragraph? This cannot be undone.');" });}
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-sm btn-danger" title="Delete paragraph (Ctrl+D)">Delete</button>
+        @{Html.EndForm();}
+        <a href="@Url.Action("Index", "FileUpload", new { projectId = Model.BookProjectID })" class="btn btn-sm btn-secondary">Files</a>
+        <a href="@Url.Action("Index", "Export", new { projectId = Model.BookProjectID })" class="btn btn-sm btn-secondary">Export</a>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        var editorConfig = {
+            autoSaveUrl:    '@Url.Action("AutoSave", "Editor")',
+            searchUrl:      '@Url.Action("Search", "Editor")',
+            searchListUrl:  '@Url.Action("SearchList", "Editor")',
+            indexUrl:       '@Url.Action("Index", "Editor")',
+            projectId:   @Model.BookProjectID,
+            paragraphId: @Model.ParagraphID,
+            prevUrl: '@(Model.PrevParagraphID.HasValue ? Url.Action("Index", "Editor", new { projectId = Model.BookProjectID, paragraphId = Model.PrevParagraphID }) : "")',
+            nextUrl: '@(Model.NextParagraphID.HasValue ? Url.Action("Index", "Editor", new { projectId = Model.BookProjectID, paragraphId = Model.NextParagraphID }) : "")',
+            firstUrl: '@Url.Action("Index", "Editor", new { projectId = Model.BookProjectID, paragraphId = Model.FirstParagraphID })',
+            lastUrl: '@Url.Action("Index", "Editor", new { projectId = Model.BookProjectID, paragraphId = Model.LastParagraphID })'
+        };
+
+        // ── Search ────────────────────────────────────────────────────────────
+        (function () {
+            var matchIds    = [];
+            var matchIndex  = -1;
+            var searchQuery = '';
+
+            var input       = document.getElementById('searchInput');
+            var status      = document.getElementById('searchStatus');
+            var btnSearch   = document.getElementById('btnSearch');
+            var btnPrev     = document.getElementById('btnSearchPrev');
+            var btnNext     = document.getElementById('btnSearchNext');
+            var btnClear    = document.getElementById('btnSearchClear');
+            var btnShowList = document.getElementById('btnShowList');
+            var chkWhole    = document.getElementById('chkWholeWord');
+
+            function isWholeWord() { return chkWhole && chkWhole.checked; }
+
+            function buildMatchUrl(pid, q, mi) {
+                return editorConfig.indexUrl +
+                    '?projectId=' + editorConfig.projectId +
+                    '&paragraphId=' + pid +
+                    '&q=' + encodeURIComponent(q) +
+                    '&mi=' + mi +
+                    (isWholeWord() ? '&ww=1' : '');
+            }
+
+            function updateUI() {
+                if (matchIds.length === 0) {
+                    status.textContent = searchQuery ? 'No matches.' : '';
+                    btnPrev.disabled = true;
+                    btnNext.disabled = true;
+                    if (btnShowList) btnShowList.style.display = 'none';
+                    return;
+                }
+                status.textContent = 'Match ' + (matchIndex + 1) + ' of ' + matchIds.length;
+                btnPrev.disabled = (matchIndex <= 0);
+                btnNext.disabled = (matchIndex >= matchIds.length - 1);
+                if (btnShowList) {
+                    btnShowList.style.display = '';
+                    btnShowList.href = editorConfig.searchListUrl +
+                        '?projectId=' + editorConfig.projectId +
+                        '&q=' + encodeURIComponent(searchQuery) +
+                        (isWholeWord() ? '&wholeWord=true' : '');
+                }
+            }
+
+            function highlightMatch(q) {
+                var ta = document.getElementById('paragraphText');
+                if (!ta || !q) return;
+                var idx = ta.value.toLowerCase().indexOf(q.toLowerCase());
+                if (idx >= 0) {
+                    ta.focus();
+                    ta.setSelectionRange(idx, idx + q.length);
+                }
+            }
+
+            function runSearch(q, ww, onDone) {
+                if (!q) { matchIds = []; matchIndex = -1; updateUI(); return; }
+                var url = editorConfig.searchUrl +
+                    '?projectId=' + editorConfig.projectId +
+                    '&q=' + encodeURIComponent(q) +
+                    '&wholeWord=' + (ww ? 'true' : 'false');
+                fetch(url)
+                    .then(function (r) { return r.json(); })
+                    .then(function (ids) {
+                        matchIds   = ids || [];
+                        matchIndex = matchIds.indexOf(editorConfig.paragraphId);
+                        if (onDone) onDone();
+                        updateUI();
+                    })
+                    .catch(function () { status.textContent = 'Search error.'; });
+            }
+
+            // On page load: restore search state from URL
+            var params  = new URLSearchParams(window.location.search);
+            var qParam  = params.get('q') || '';
+            var miParam = parseInt(params.get('mi') || '-1', 10);
+            var wwParam = params.get('ww') === '1';
+
+            if (qParam) {
+                searchQuery = qParam;
+                input.value = qParam;
+                if (chkWhole) chkWhole.checked = wwParam;
+                btnClear.style.display = '';
+                runSearch(qParam, wwParam, function () {
+                    if (miParam >= 0 && miParam < matchIds.length) {
+                        matchIndex = miParam;
+                    }
+                    updateUI();
+                    highlightMatch(qParam);
+                });
+            }
+
+            // Search button / Enter key
+            function doSearch() {
+                searchQuery = input.value.trim();
+                if (!searchQuery) { doClear(); return; }
+                btnClear.style.display = '';
+                runSearch(searchQuery, isWholeWord(), function () {
+                    if (matchIds.length === 0) { updateUI(); return; }
+                    matchIndex = 0;
+                    window.location.href = buildMatchUrl(matchIds[0], searchQuery, 0);
+                });
+            }
+
+            btnSearch.addEventListener('click', doSearch);
+            input.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') { e.preventDefault(); doSearch(); }
+            });
+
+            btnNext.addEventListener('click', function () {
+                var ni = matchIndex + 1;
+                if (ni < matchIds.length)
+                    window.location.href = buildMatchUrl(matchIds[ni], searchQuery, ni);
+            });
+
+            btnPrev.addEventListener('click', function () {
+                var pi = matchIndex - 1;
+                if (pi >= 0)
+                    window.location.href = buildMatchUrl(matchIds[pi], searchQuery, pi);
+            });
+
+            function doClear() {
+                input.value = '';
+                searchQuery = '';
+                matchIds    = [];
+                matchIndex  = -1;
+                btnClear.style.display = 'none';
+                if (btnShowList) btnShowList.style.display = 'none';
+                status.textContent = '';
+                btnPrev.disabled = true;
+                btnNext.disabled = true;
+                var clean = window.location.pathname + '?projectId=' + editorConfig.projectId + '&paragraphId=' + editorConfig.paragraphId;
+                window.history.replaceState(null, '', clean);
+            }
+
+            btnClear.addEventListener('click', doClear);
+
+            // Thread q (and ww) through regular nav links when search is active
+            ['btnPrev', 'btnNext'].forEach(function (id) {
+                var el = document.getElementById(id);
+                if (el && el.href && searchQuery) {
+                    el.href = el.href + '&q=' + encodeURIComponent(searchQuery) +
+                        (isWholeWord() ? '&ww=1' : '');
+                }
+            });
+        }());
+
+        // ── Go To ─────────────────────────────────────────────────────────────
+        (function () {
+            var input   = document.getElementById('gotoInput');
+            var btn     = document.getElementById('btnGoto');
+            var gotoUrl = '@Url.Action("GoTo", "Editor")';
+
+            function doGoto() {
+                var val = input.value.trim();
+                if (!val) return;
+                var url = gotoUrl + '?projectId=' + editorConfig.projectId + '&target=' + encodeURIComponent(val);
+                if (window._editorSaveAndNavigate) {
+                    window._editorSaveAndNavigate(url);
+                } else {
+                    window.location.href = url;
+                }
+            }
+
+            btn.addEventListener('click', doGoto);
+            input.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') { e.preventDefault(); doGoto(); }
+            });
+        }());
+
+        // ── Insert type selects ───────────────────────────────────────────────
+        (function () {
+            var selBefore = document.getElementById('selInsBefore');
+            var selAfter  = document.getElementById('selInsAfter');
+            var hidBefore = document.getElementById('insBeforeType');
+            var hidAfter  = document.getElementById('insAfterType');
+            if (selBefore && hidBefore) {
+                selBefore.addEventListener('change', function () { hidBefore.value = selBefore.value; });
+            }
+            if (selAfter && hidAfter) {
+                selAfter.addEventListener('change', function () { hidAfter.value = selAfter.value; });
+            }
+        }());
+    </script>
+}

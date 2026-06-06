@@ -1,0 +1,36 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore HexWriter.sln
+
+      - name: Create Web.config from template
+        shell: cmd
+        run: copy Web.config.template Web.config
+
+      - name: Build ContentAnalysisEngine
+        run: msbuild ContentAnalysisEngine\ContentAnalysisEngine.csproj /p:Configuration=Release
+
+      - name: Build and Deploy
+        run: |
+          msbuild HexWriter.csproj `
+            /p:Configuration=Release `
+            /p:DeployOnBuild=true `
+            /p:PublishProfile=Production `
+            /p:Password=${{ secrets.DEPLOY_PASSWORD }}

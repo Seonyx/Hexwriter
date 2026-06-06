@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - HexWriter Admin</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="~/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="~/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="~/favicon-16x16.png" />
+    <link rel="manifest" href="~/site.webmanifest" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="~/Content/css/site.css" rel="stylesheet" />
+    <link href="~/Content/css/admin.css" rel="stylesheet" />
+    @RenderSection("Styles", required: false)
+</head>
+<body class="admin-body">
+    <header class="admin-header">
+        <div class="container">
+            <a href="/admin" class="admin-brand">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
+                    <path d="M 50 50 L 0 0 L 50 0 Z" fill="#7C3AED" />
+                    <path d="M 50 50 L 100 0 L 100 50 Z" fill="#10B981" />
+                    <path d="M 50 50 L 100 100 L 50 100 Z" fill="#7C3AED" />
+                    <path d="M 50 50 L 0 100 L 0 50 Z" fill="#10B981" />
+                </svg>
+                <span>HexWriter Admin</span>
+            </a>
+            <nav class="admin-nav">
+                <a href="/admin">Dashboard</a>
+                <a href="/admin/bookeditor/projects">Book Editor</a>
+                <a href="/admin/settings">Settings</a>
+                <a href="/admin/logout" class="btn-logout">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="admin-content">
+        <div class="container">
+            @if (TempData["Message"] != null)
+            {
+                <div class="alert alert-success">@TempData["Message"]</div>
+            }
+            @RenderBody()
+        </div>
+    </main>
+
+    <script src="~/Scripts/site.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
