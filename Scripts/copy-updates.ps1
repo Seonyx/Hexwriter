@@ -6,7 +6,7 @@
 # ============================================
 
 $src = "\\192.168.69.75\hexwriter"
-$dst = "C:\Users\Steve\Dropbox\VITALIS\HexWriter"
+$dst = "C:\Users\Steve\Dropbox\VITALIS\Hexwriter\Hexwriter_web_src"
 
 Write-Host "HexWriter File Copy" -ForegroundColor Cyan
 Write-Host "From: $src" -ForegroundColor Gray
