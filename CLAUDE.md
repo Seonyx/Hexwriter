@@ -23,10 +23,10 @@ HexWriter is a standalone book-editor web application at Hexwriter.com, extracte
 - Update the connection string:
   ```xml
   <add name="HexWriterContext"
-       connectionString="Server=.\SQLEXPRESS;Database=HexWriter;Integrated Security=True;"
+       connectionString="Server=(LocalDB)\MSSQLLocalDB;Database=HexWriter;Integrated Security=True;"
        providerName="System.Data.SqlClient" />
   ```
-  (Adjust the server name if your SQL Express instance is named differently)
+  Dibbler uses SQL Server LocalDB, not SQL Express.
 
 **3. Build:**
 - Right-click solution → Restore NuGet Packages
