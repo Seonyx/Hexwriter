@@ -83,8 +83,6 @@ namespace HexWriter.Web.Controllers
         [HttpPost]
         public JsonResult AutoSave(int paragraphId, string paragraphText, string metaText, string editNoteText)
         {
-            if (!IsAuthenticated())
-                return Json(new { success = false, message = "Not authenticated" });
 
             try
             {
@@ -376,8 +374,6 @@ namespace HexWriter.Web.Controllers
         [HttpGet]
         public JsonResult Search(int projectId, string q, bool wholeWord = true)
         {
-            if (!IsAuthenticated())
-                return Json(null, JsonRequestBehavior.AllowGet);
 
             if (string.IsNullOrWhiteSpace(q))
                 return Json(new int[0], JsonRequestBehavior.AllowGet);
