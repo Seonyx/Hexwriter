@@ -144,7 +144,7 @@
       <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="BCrypt.Net-Next">
-      <HintPath>packages\BCrypt.Net-Next.4.0.3\lib\net46\BCrypt.Net-Next.dll</HintPath>
+      <HintPath>packages\BCrypt.Net-Next.4.0.3\lib\net45\BCrypt.Net-Next.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
