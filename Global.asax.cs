@@ -1,9 +1,11 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Routing;
+using HexWriter.Web.Models;
 
 namespace HexWriter.Web
 {
@@ -15,6 +17,35 @@ namespace HexWriter.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             AntiForgeryConfig.SuppressIdentityHeuristicChecks = true;
+            SeedAdminUser();
+        }
+
+        private static void SeedAdminUser()
+        {
+            try
+            {
+                using (var db = new HexWriterContext())
+                {
+                    if (!db.Users.Any(u => u.Role == "Admin"))
+                    {
+                        db.Users.Add(new User
+                        {
+                            Username     = "admin",
+                            Email        = "admin@hexwriter.com",
+                            DisplayName  = "Administrator",
+                            PasswordHash = BCrypt.Net.BCrypt.HashPassword("ChangeMe123!"),
+                            Role         = "Admin",
+                            IsActive     = true,
+                            CreatedAt    = DateTime.UtcNow
+                        });
+                        db.SaveChanges();
+                    }
+                }
+            }
+            catch
+            {
+                // Users table may not exist yet — run Update-Database first
+            }
         }
 
         protected void Application_Error(object sender, EventArgs e)

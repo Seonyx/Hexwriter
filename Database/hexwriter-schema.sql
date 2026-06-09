@@ -133,6 +133,25 @@ CREATE TABLE SiteSettings (
 );
 
 -- ============================================
+-- Auth
+-- ============================================
+
+CREATE TABLE Users (
+    Id           INT           PRIMARY KEY IDENTITY(1,1),
+    Username     NVARCHAR(100) NOT NULL,
+    Email        NVARCHAR(320) NOT NULL,
+    DisplayName  NVARCHAR(200) NOT NULL,
+    PasswordHash NVARCHAR(255) NOT NULL,
+    Role         NVARCHAR(50)  NOT NULL DEFAULT 'Reviewer',
+    IsActive     BIT           NOT NULL DEFAULT 1,
+    CreatedAt    DATETIME      NOT NULL DEFAULT GETUTCDATE(),
+    LastLoginAt  DATETIME      NULL,
+    CONSTRAINT UQ_Users_Username UNIQUE (Username),
+    CONSTRAINT UQ_Users_Email    UNIQUE (Email)
+);
+CREATE INDEX IX_Users_Username ON Users(Username);
+
+-- ============================================
 -- Book Editor
 -- ============================================
 

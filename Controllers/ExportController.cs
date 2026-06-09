@@ -15,13 +15,13 @@ using HexWriter.Web.Services;
 
 namespace HexWriter.Web.Controllers
 {
+    [Authorize]
     public class ExportController : Controller
     {
         private HexWriterContext db = new HexWriterContext();
 
         public ActionResult Index(int projectId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -53,7 +53,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult ExportChapter(int chapterId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var chapter = db.Chapters.Find(chapterId);
             if (chapter == null) return HttpNotFound();
@@ -72,7 +71,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult ExportChapterReview(int chapterId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var chapter = db.Chapters.Find(chapterId);
             if (chapter == null) return HttpNotFound();
@@ -86,7 +84,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult ExportManuscriptOnly(int projectId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -117,7 +114,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult EpubConfig(int projectId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -142,7 +138,6 @@ namespace HexWriter.Web.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult ExportEpub(EpubConfigViewModel model, HttpPostedFileBase coverImage)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(model.BookProjectID);
             if (project == null) return HttpNotFound();
@@ -269,7 +264,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult AudiobookConfig(int projectId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -291,7 +285,6 @@ namespace HexWriter.Web.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         public ActionResult DownloadAudiobookPackage(AudiobookConfigViewModel model)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(model.BookProjectID);
             if (project == null) return HttpNotFound();
@@ -366,7 +359,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult ExportBookml(int projectId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -426,10 +418,6 @@ namespace HexWriter.Web.Controllers
             return string.IsNullOrEmpty(slug) ? "untitled" : slug;
         }
 
-        private bool IsAuthenticated()
-        {
-            return User.Identity.IsAuthenticated;
-        }
 
         protected override void Dispose(bool disposing)
         {

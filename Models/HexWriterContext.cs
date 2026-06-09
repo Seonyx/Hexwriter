@@ -35,6 +35,9 @@ namespace HexWriter.Web.Models
         public DbSet<CharacterAlias> CharacterAliases { get; set; }
         public DbSet<CharacterTag> CharacterTags { get; set; }
 
+        // Auth
+        public DbSet<User> Users { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

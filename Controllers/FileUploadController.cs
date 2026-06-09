@@ -11,6 +11,7 @@ using HexWriter.Web.Services;
 
 namespace HexWriter.Web.Controllers
 {
+    [Authorize]
     public class FileUploadController : Controller
     {
         private HexWriterContext db = new HexWriterContext();
@@ -58,7 +59,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Index(int projectId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -101,7 +101,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Upload(int projectId, IEnumerable<HttpPostedFileBase> files)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -165,7 +164,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteFile(int projectId, string fileName)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -189,7 +187,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ImportFiles(int projectId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -222,8 +219,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult StartImport(int projectId)
         {
-            if (!IsAuthenticated())
-                return Json(new { error = "Unauthorized" });
 
             var project = db.BookProjects.Find(projectId);
             if (project == null)
@@ -748,10 +743,6 @@ namespace HexWriter.Web.Controllers
             return null;
         }
 
-        private bool IsAuthenticated()
-        {
-            return User.Identity.IsAuthenticated;
-        }
 
         protected override void Dispose(bool disposing)
         {

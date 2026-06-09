@@ -143,6 +143,9 @@
       <Private>True</Private>
       <HintPath>packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="BCrypt.Net-Next">
+      <HintPath>packages\BCrypt.Net-Next.4.0.3\lib\net46\BCrypt.Net-Next.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
@@ -168,12 +171,18 @@
     <Compile Include="Models\Division.cs" />
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\HexWriterContext.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Helpers\AuthHelper.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\20260609120001_InitialCreate.cs" />
+    <Compile Include="Migrations\20260609120002_AddUsers.cs" />
     <Compile Include="Models\SiteSetting.cs" />
     <Compile Include="Models\ViewModels\ContactViewModel.cs" />
     <Compile Include="Models\ViewModels\PaidContactViewModel.cs" />
     <Compile Include="Models\ViewModels\HomeViewModel.cs" />
     <Compile Include="Models\ViewModels\PageViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\AdminLoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\Account\LoginViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\AdminDashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\AdminPageViewModel.cs" />
     <Compile Include="Models\BookProject.cs" />
@@ -202,6 +211,7 @@
     <Compile Include="Services\PythonScript.cs" />
     <Compile Include="Services\VoiceLibrary.cs" />
     <Compile Include="Services\BookmlImporter.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BookProjectController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\EditorController.cs" />
@@ -241,6 +251,7 @@
     <Content Include="Views\Shared\_Navigation.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\web.config" />
+    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Admin\Login.cshtml" />
     <Content Include="Views\Admin\Dashboard.cshtml" />
     <Content Include="Views\Admin\Pages\Index.cshtml" />

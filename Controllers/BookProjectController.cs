@@ -12,13 +12,13 @@ using HexWriter.Web.Models.ViewModels.BookEditor;
 
 namespace HexWriter.Web.Controllers
 {
+    [Authorize]
     public class BookProjectController : Controller
     {
         private HexWriterContext db = new HexWriterContext();
 
         public ActionResult Index()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var projects = db.BookProjects
                 .Where(p => p.IsActive)
@@ -48,7 +48,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Create()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
             return View(new BookProjectViewModel());
         }
 
@@ -56,7 +55,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(BookProjectViewModel model)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -96,7 +94,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Edit(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(id);
             if (project == null) return HttpNotFound();
@@ -120,7 +117,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(BookProjectViewModel model)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -150,7 +146,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(id);
             if (project == null) return HttpNotFound();
@@ -177,7 +172,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UploadCover(int id, HttpPostedFileBase coverImage)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(id);
             if (project == null) return HttpNotFound();
@@ -215,7 +209,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult CoverImage(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(id);
             if (project == null) return HttpNotFound();
@@ -238,7 +231,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult CoverThumbnail(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(id);
             if (project == null) return HttpNotFound();
@@ -322,10 +314,6 @@ namespace HexWriter.Web.Controllers
             }
         }
 
-        private bool IsAuthenticated()
-        {
-            return User.Identity.IsAuthenticated;
-        }
 
         private string GetBookEditorBasePath()
         {

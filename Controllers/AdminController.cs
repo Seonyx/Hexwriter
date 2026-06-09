@@ -1,61 +1,20 @@
 using System;
-using System.Configuration;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 using HexWriter.Web.Models;
 using HexWriter.Web.Models.ViewModels.Admin;
 
 namespace HexWriter.Web.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private HexWriterContext db = new HexWriterContext();
-
-        // ==================== Authentication ====================
-
-        public ActionResult Login()
-        {
-            if (IsAuthenticated())
-                return RedirectToAction("Dashboard");
-
-            return View(new AdminLoginViewModel());
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login(AdminLoginViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            var storedHash = ConfigurationManager.AppSettings["AdminPasswordHash"];
-            var inputHash = HashPassword(model.Password);
-
-            if (inputHash == storedHash)
-            {
-                FormsAuthentication.SetAuthCookie("admin", false);
-                return RedirectToAction("Dashboard");
-            }
-
-            ModelState.AddModelError("", "Invalid password");
-            return View(model);
-        }
-
-        public ActionResult Logout()
-        {
-            FormsAuthentication.SignOut();
-            return RedirectToAction("Login");
-        }
 
         // ==================== Dashboard ====================
 
         public ActionResult Dashboard()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var model = new AdminDashboardViewModel
             {
@@ -73,7 +32,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Pages()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var pages = db.Pages.OrderBy(p => p.SortOrder).ToList();
             return View("Pages/Index", pages);
@@ -81,7 +39,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult CreatePage()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var model = new AdminPageViewModel();
             PopulatePageDropdowns(model);
@@ -90,7 +47,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult EditPage(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var page = db.Pages.Find(id);
             if (page == null) return HttpNotFound();
@@ -118,7 +74,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SavePage(AdminPageViewModel model)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             if (!ModelState.IsValid)
             {
@@ -158,7 +113,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeletePage(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var page = db.Pages.Find(id);
             if (page != null)
@@ -174,7 +128,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Authors()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var authors = db.Authors.OrderBy(a => a.SortOrder).ToList();
             return View("Authors/Index", authors);
@@ -182,13 +135,11 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult CreateAuthor()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
             return View("Authors/Edit", new Author());
         }
 
         public ActionResult EditAuthor(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var author = db.Authors.Find(id);
             if (author == null) return HttpNotFound();
@@ -200,7 +151,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SaveAuthor(Author model)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             if (!ModelState.IsValid)
                 return View("Authors/Edit", model);
@@ -232,7 +182,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteAuthor(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var author = db.Authors.Find(id);
             if (author != null)
@@ -248,7 +197,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Books()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var books = db.Books.OrderBy(b => b.AuthorId).ThenBy(b => b.SortOrder).ToList();
             ViewBag.Authors = db.Authors.OrderBy(a => a.SortOrder).ToList();
@@ -257,7 +205,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult CreateBook()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             ViewBag.Authors = new SelectList(
                 db.Authors.OrderBy(a => a.PenName).ToList(),
@@ -268,7 +215,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult EditBook(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var book = db.Books.Find(id);
             if (book == null) return HttpNotFound();
@@ -284,7 +230,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SaveBook(Book model)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             if (!ModelState.IsValid)
             {
@@ -325,7 +270,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteBook(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var book = db.Books.Find(id);
             if (book != null)
@@ -341,7 +285,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult ContentBlocks()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var blocks = db.ContentBlocks.OrderBy(b => b.BlockKey).ToList();
             return View("ContentBlocks/Index", blocks);
@@ -349,7 +292,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult EditContentBlock(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var block = db.ContentBlocks.Find(id);
             if (block == null) return HttpNotFound();
@@ -362,7 +304,6 @@ namespace HexWriter.Web.Controllers
         [ValidateInput(false)]
         public ActionResult SaveContentBlock(ContentBlock model)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             if (!ModelState.IsValid)
                 return View("ContentBlocks/Edit", model);
@@ -383,7 +324,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Submissions()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var submissions = db.ContactSubmissions
                 .OrderByDescending(s => s.SubmittedDate)
@@ -394,7 +334,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult ViewSubmission(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var submission = db.ContactSubmissions.Find(id);
             if (submission == null) return HttpNotFound();
@@ -412,7 +351,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteSubmission(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var submission = db.ContactSubmissions.Find(id);
             if (submission != null)
@@ -428,7 +366,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult MarkAsSpam(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var submission = db.ContactSubmissions.Find(id);
             if (submission != null)
@@ -444,7 +381,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Settings()
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var settings = db.SiteSettings.OrderBy(s => s.SettingKey).ToList();
             return View("Settings/Index", settings);
@@ -454,7 +390,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SaveSettings(FormCollection form)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login");
 
             var settings = db.SiteSettings.ToList();
             foreach (var setting in settings)
@@ -473,11 +408,6 @@ namespace HexWriter.Web.Controllers
         }
 
         // ==================== Helpers ====================
-
-        private bool IsAuthenticated()
-        {
-            return User.Identity.IsAuthenticated;
-        }
 
         private void PopulatePageDropdowns(AdminPageViewModel model)
         {
@@ -503,20 +433,6 @@ namespace HexWriter.Web.Controllers
                 .ToList();
 
             model.Divisions.Insert(0, new SelectListItem { Value = "", Text = "(No Division)" });
-        }
-
-        private string HashPassword(string password)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                var builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
-            }
         }
 
         protected override void Dispose(bool disposing)

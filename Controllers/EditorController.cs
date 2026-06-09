@@ -9,6 +9,7 @@ using HexWriter.Web.Services;
 
 namespace HexWriter.Web.Controllers
 {
+    [Authorize]
     public class EditorController : Controller
     {
         private HexWriterContext db = new HexWriterContext();
@@ -16,7 +17,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Index(int projectId, int? paragraphId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -54,7 +54,6 @@ namespace HexWriter.Web.Controllers
         [ValidateInput(false)]
         public ActionResult SaveParagraph(int bookProjectID, int paragraphID, string paragraphText, string metaText, string editNoteText)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var paragraph = db.Paragraphs.Find(paragraphID);
             if (paragraph == null) return HttpNotFound();
@@ -122,7 +121,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult InsertParagraph(int projectId, int currentParagraphId, bool before = false, string paraType = "normal")
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             // Sanitise paraType — only allow known values
             var allowedTypes = new[] { "normal", "epigraph" };
@@ -232,7 +230,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteParagraph(int projectId, int paragraphId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var paragraph = db.Paragraphs.Include(p => p.Chapter).FirstOrDefault(p => p.ParagraphID == paragraphId);
             if (paragraph == null) return HttpNotFound();
@@ -310,7 +307,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SetBookmark(int projectId, int paragraphId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -326,7 +322,6 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ClearBookmark(int projectId, int paragraphId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -341,7 +336,6 @@ namespace HexWriter.Web.Controllers
         [HttpGet]
         public ActionResult GoTo(int projectId, string target)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             if (string.IsNullOrWhiteSpace(target))
                 return RedirectToAction("Index", new { projectId });
@@ -395,7 +389,6 @@ namespace HexWriter.Web.Controllers
         [HttpGet]
         public ActionResult SearchList(int projectId, string q, bool wholeWord = false)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
             if (string.IsNullOrWhiteSpace(q))
                 return Content("No search term.", "text/plain", System.Text.Encoding.UTF8);
 
@@ -554,10 +547,6 @@ namespace HexWriter.Web.Controllers
             }
         }
 
-        private bool IsAuthenticated()
-        {
-            return User.Identity.IsAuthenticated;
-        }
 
         protected override void Dispose(bool disposing)
         {

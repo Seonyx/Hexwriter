@@ -28,10 +28,15 @@ HexWriter is a standalone book-editor web application at Hexwriter.com, extracte
   ```
   Dibbler uses SQL Server LocalDB, not SQL Express.
 
-**3. Build:**
+**3. Run EF migrations (first time only):**
+- Open Package Manager Console (Tools → NuGet Package Manager → Package Manager Console)
+- Run: `Update-Database`
+- This creates the `Users` table and seeds the admin account (admin / ChangeMe123!)
+
+**4. Build:**
 - Right-click solution → Restore NuGet Packages
 - Build → Build Solution (Ctrl+Shift+B)
-- F5 to run — navigate to `/admin/login`
+- F5 to run — navigate to `/account/login`
 
 ## Architecture
 

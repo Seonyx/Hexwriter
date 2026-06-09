@@ -9,24 +9,24 @@ namespace HexWriter.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            // Root URL — redirect to admin login
+            // Root URL — redirect to login
             routes.MapRoute(
                 name: "Root",
                 url: "",
-                defaults: new { controller = "Admin", action = "Login" }
+                defaults: new { controller = "Account", action = "Login" }
             );
 
             // Auth routes
             routes.MapRoute(
-                name: "AdminLogin",
-                url: "admin/login",
-                defaults: new { controller = "Admin", action = "Login" }
+                name: "AccountLogin",
+                url: "account/login",
+                defaults: new { controller = "Account", action = "Login" }
             );
 
             routes.MapRoute(
-                name: "AdminLogout",
-                url: "admin/logout",
-                defaults: new { controller = "Admin", action = "Logout" }
+                name: "AccountLogout",
+                url: "account/logout",
+                defaults: new { controller = "Account", action = "Logout" }
             );
 
             routes.MapRoute(

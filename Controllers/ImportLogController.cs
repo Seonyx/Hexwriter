@@ -4,13 +4,13 @@ using HexWriter.Web.Models;
 
 namespace HexWriter.Web.Controllers
 {
+    [Authorize]
     public class ImportLogController : Controller
     {
         private HexWriterContext db = new HexWriterContext();
 
         public ActionResult Index(int projectId)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -28,7 +28,6 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Detail(int id)
         {
-            if (!IsAuthenticated()) return RedirectToAction("Login", "Admin");
 
             var log = db.ImportLogs.Find(id);
             if (log == null) return HttpNotFound();
@@ -38,10 +37,6 @@ namespace HexWriter.Web.Controllers
             return View(log);
         }
 
-        private bool IsAuthenticated()
-        {
-            return User.Identity.IsAuthenticated;
-        }
 
         protected override void Dispose(bool disposing)
         {

@@ -22,7 +22,7 @@
     <compilation debug="true" targetFramework="4.6.2" />
     <httpRuntime targetFramework="4.6.2" />
     <authentication mode="Forms">
-      <forms loginUrl="~/admin/login" timeout="120" />
+      <forms loginUrl="~/account/login" timeout="120" />
     </authentication>
 
   </system.web>
