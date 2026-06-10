@@ -172,10 +172,15 @@
     <Compile Include="Models\Page.cs" />
     <Compile Include="Models\HexWriterContext.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\GroupUser.cs" />
+    <Compile Include="Models\BookGroup.cs" />
+    <Compile Include="Models\BookUser.cs" />
     <Compile Include="Helpers\AuthHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\20260609120001_InitialCreate.cs" />
     <Compile Include="Migrations\20260609120002_AddUsers.cs" />
+    <Compile Include="Migrations\20260610120001_AddPermissions.cs" />
     <Compile Include="Models\SiteSetting.cs" />
     <Compile Include="Models\ViewModels\ContactViewModel.cs" />
     <Compile Include="Models\ViewModels\PaidContactViewModel.cs" />
@@ -183,6 +188,8 @@
     <Compile Include="Models\ViewModels\PageViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\AdminLoginViewModel.cs" />
     <Compile Include="Models\ViewModels\Account\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\Admin\UserViewModel.cs" />
+    <Compile Include="Models\ViewModels\Admin\GroupViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\AdminDashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\Admin\AdminPageViewModel.cs" />
     <Compile Include="Models\BookProject.cs" />
@@ -203,6 +210,7 @@
     <Compile Include="Models\ViewModels\BookEditor\AudiobookConfigViewModel.cs" />
     <Compile Include="Models\ViewModels\BookEditor\EpubConfigViewModel.cs" />
     <Compile Include="Models\ViewModels\BookEditor\CharacterViewModel.cs" />
+    <Compile Include="Services\PermissionsService.cs" />
     <Compile Include="Services\ChapterReviewOdtExporter.cs" />
     <Compile Include="Services\AudiobookPackageBuilder.cs" />
     <Compile Include="Services\BookFileParser.cs" />
@@ -212,6 +220,8 @@
     <Compile Include="Services\VoiceLibrary.cs" />
     <Compile Include="Services\BookmlImporter.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\GroupsController.cs" />
     <Compile Include="Controllers\BookProjectController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\EditorController.cs" />
@@ -252,6 +262,13 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\web.config" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\ResetPassword.cshtml" />
+    <Content Include="Views\Groups\Index.cshtml" />
+    <Content Include="Views\Groups\Create.cshtml" />
+    <Content Include="Views\Groups\Edit.cshtml" />
     <Content Include="Views\Admin\Login.cshtml" />
     <Content Include="Views\Admin\Dashboard.cshtml" />
     <Content Include="Views\Admin\Pages\Index.cshtml" />

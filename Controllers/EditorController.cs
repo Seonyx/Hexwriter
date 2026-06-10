@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using HexWriter.Web.Helpers;
 using HexWriter.Web.Models;
 using HexWriter.Web.Models.ViewModels.BookEditor;
 using HexWriter.Web.Services;
@@ -54,6 +55,7 @@ namespace HexWriter.Web.Controllers
         [ValidateInput(false)]
         public ActionResult SaveParagraph(int bookProjectID, int paragraphID, string paragraphText, string metaText, string editNoteText)
         {
+            if (!CanEdit(bookProjectID)) return new HttpStatusCodeResult(403);
 
             var paragraph = db.Paragraphs.Find(paragraphID);
             if (paragraph == null) return HttpNotFound();
@@ -86,9 +88,11 @@ namespace HexWriter.Web.Controllers
 
             try
             {
-                var paragraph = db.Paragraphs.Find(paragraphId);
+                var paragraph = db.Paragraphs.Include(p => p.Chapter).FirstOrDefault(p => p.ParagraphID == paragraphId);
                 if (paragraph == null)
                     return Json(new { success = false, message = "Paragraph not found" });
+                if (!CanEdit(paragraph.Chapter.BookProjectID))
+                    return Json(new { success = false, message = "Edit access required" });
 
                 paragraph.ParagraphText = paragraphText ?? "";
                 paragraph.LastModifiedDate = DateTime.Now;
@@ -119,6 +123,7 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult InsertParagraph(int projectId, int currentParagraphId, bool before = false, string paraType = "normal")
         {
+            if (!CanEdit(projectId)) return new HttpStatusCodeResult(403);
 
             // Sanitise paraType — only allow known values
             var allowedTypes = new[] { "normal", "epigraph" };
@@ -228,6 +233,7 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteParagraph(int projectId, int paragraphId)
         {
+            if (!CanEdit(projectId)) return new HttpStatusCodeResult(403);
 
             var paragraph = db.Paragraphs.Include(p => p.Chapter).FirstOrDefault(p => p.ParagraphID == paragraphId);
             if (paragraph == null) return HttpNotFound();
@@ -543,6 +549,14 @@ namespace HexWriter.Web.Controllers
             }
         }
 
+
+        private bool CanEdit(int bookProjectId)
+        {
+            var user = AuthHelper.GetCurrentUser(HttpContext);
+            if (user == null) return false;
+            if (user.IsAdmin) return true;
+            return new PermissionsService(db).CanEdit(user.Id, bookProjectId);
+        }
 
         protected override void Dispose(bool disposing)
         {

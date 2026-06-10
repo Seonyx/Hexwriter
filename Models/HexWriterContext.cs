@@ -38,6 +38,12 @@ namespace HexWriter.Web.Models
         // Auth
         public DbSet<User> Users { get; set; }
 
+        // Permissions
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<GroupUser> GroupUsers { get; set; }
+        public DbSet<BookGroup> BookGroups { get; set; }
+        public DbSet<BookUser> BookUsers { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -118,6 +124,43 @@ namespace HexWriter.Web.Models
                 .WithMany(c => c.Tags)
                 .HasForeignKey(t => t.CharacterId)
                 .WillCascadeOnDelete(true);
+
+            // Permissions relationships
+            modelBuilder.Entity<GroupUser>()
+                .HasRequired(gu => gu.Group)
+                .WithMany(g => g.GroupUsers)
+                .HasForeignKey(gu => gu.GroupId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<GroupUser>()
+                .HasRequired(gu => gu.User)
+                .WithMany()
+                .HasForeignKey(gu => gu.UserId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<BookGroup>()
+                .HasRequired(bg => bg.BookProject)
+                .WithMany()
+                .HasForeignKey(bg => bg.BookProjectID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<BookGroup>()
+                .HasRequired(bg => bg.Group)
+                .WithMany()
+                .HasForeignKey(bg => bg.GroupId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<BookUser>()
+                .HasRequired(bu => bu.BookProject)
+                .WithMany()
+                .HasForeignKey(bu => bu.BookProjectID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<BookUser>()
+                .HasRequired(bu => bu.User)
+                .WithMany()
+                .HasForeignKey(bu => bu.UserId)
+                .WillCascadeOnDelete(false);
         }
     }
 }

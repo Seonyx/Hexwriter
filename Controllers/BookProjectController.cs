@@ -7,8 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using HexWriter.Web.Helpers;
 using HexWriter.Web.Models;
 using HexWriter.Web.Models.ViewModels.BookEditor;
+using HexWriter.Web.Services;
 
 namespace HexWriter.Web.Controllers
 {
@@ -19,35 +21,69 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Index()
         {
-
-            var projects = db.BookProjects
+            var currentUser = AuthHelper.GetCurrentUser(HttpContext);
+            var permissions = new PermissionsService(db);
+            var allProjects = db.BookProjects
                 .Where(p => p.IsActive)
                 .OrderByDescending(p => p.LastModifiedDate)
                 .ToList();
 
             var model = new BookProjectListViewModel();
-            foreach (var p in projects)
+            foreach (var p in allProjects)
             {
+                string access;
+                if (currentUser.IsAdmin)
+                {
+                    access = "Edit";
+                }
+                else
+                {
+                    access = permissions.GetEffectiveAccess(currentUser.Id, p.BookProjectID);
+                    if (access == null) continue; // not granted — skip
+                }
+
                 model.Projects.Add(new BookProjectViewModel
                 {
-                    BookProjectID = p.BookProjectID,
-                    ProjectName = p.ProjectName,
-                    CoverImagePath = p.CoverImagePath,
-                    FolderPath = p.FolderPath,
-                    CreatedDate = p.CreatedDate,
-                    LastModifiedDate = p.LastModifiedDate,
-                    IsActive = p.IsActive,
-                    TotalChapters = db.Chapters.Count(c => c.BookProjectID == p.BookProjectID),
-                    TotalParagraphs = db.Paragraphs.Count(pr => pr.Chapter.BookProjectID == p.BookProjectID),
-                    CurrentDraftNumber = p.CurrentDraftNumber
+                    BookProjectID      = p.BookProjectID,
+                    ProjectName        = p.ProjectName,
+                    CoverImagePath     = p.CoverImagePath,
+                    FolderPath         = p.FolderPath,
+                    CreatedDate        = p.CreatedDate,
+                    LastModifiedDate   = p.LastModifiedDate,
+                    IsActive           = p.IsActive,
+                    TotalChapters      = db.Chapters.Count(c => c.BookProjectID == p.BookProjectID),
+                    TotalParagraphs    = db.Paragraphs.Count(pr => pr.Chapter.BookProjectID == p.BookProjectID),
+                    CurrentDraftNumber = p.CurrentDraftNumber,
+                    AccessLevel        = access
                 });
             }
 
+            ViewBag.IsAdmin = currentUser.IsAdmin;
             return View(model);
+        }
+
+        private ActionResult RequireAdmin()
+        {
+            var user = AuthHelper.GetCurrentUser(HttpContext);
+            if (user == null || !user.IsAdmin)
+                return new HttpStatusCodeResult(403, "Admin access required");
+            return null;
+        }
+
+        private ActionResult RequireEditAccess(int bookProjectId)
+        {
+            var user = AuthHelper.GetCurrentUser(HttpContext);
+            if (user == null) return new HttpStatusCodeResult(403);
+            if (user.IsAdmin) return null;
+            var permissions = new PermissionsService(db);
+            if (!permissions.CanEdit(user.Id, bookProjectId))
+                return new HttpStatusCodeResult(403, "Edit access required");
+            return null;
         }
 
         public ActionResult Create()
         {
+            var check = RequireAdmin(); if (check != null) return check;
             return View(new BookProjectViewModel());
         }
 
@@ -55,6 +91,7 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(BookProjectViewModel model)
         {
+            var check = RequireAdmin(); if (check != null) return check;
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -94,6 +131,7 @@ namespace HexWriter.Web.Controllers
 
         public ActionResult Edit(int id)
         {
+            var check = RequireAdmin(); if (check != null) return check;
 
             var project = db.BookProjects.Find(id);
             if (project == null) return HttpNotFound();
@@ -110,6 +148,20 @@ namespace HexWriter.Web.Controllers
                 IsActive      = project.IsActive
             };
 
+            ViewBag.BookUsers  = db.BookUsers.Where(bu => bu.BookProjectID == id)
+                                    .Join(db.Users, bu => bu.UserId, u => u.Id,
+                                          (bu, u) => new { bu.Id, u.Username, u.DisplayName, bu.AccessLevel, bu.GrantedAt })
+                                    .OrderBy(x => x.Username).ToList();
+            ViewBag.BookGroups = db.BookGroups.Where(bg => bg.BookProjectID == id)
+                                    .Join(db.Groups, bg => bg.GroupId, g => g.Id,
+                                          (bg, g) => new { bg.Id, g.Name, bg.AccessLevel, bg.GrantedAt })
+                                    .OrderBy(x => x.Name).ToList();
+            ViewBag.AllUsers   = db.Users.Where(u => u.IsActive)
+                                    .OrderBy(u => u.Username)
+                                    .Select(u => new { u.Id, u.Username, u.DisplayName }).ToList();
+            ViewBag.AllGroups  = db.Groups.OrderBy(g => g.Name)
+                                    .Select(g => new { g.Id, g.Name }).ToList();
+
             return View(model);
         }
 
@@ -117,6 +169,7 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(BookProjectViewModel model)
         {
+            var check = RequireAdmin(); if (check != null) return check;
 
             if (!ModelState.IsValid)
                 return View(model);
@@ -146,6 +199,7 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
+            var check = RequireAdmin(); if (check != null) return check;
 
             var project = db.BookProjects.Find(id);
             if (project == null) return HttpNotFound();
@@ -254,6 +308,52 @@ namespace HexWriter.Web.Controllers
                 default: contentType = "image/jpeg"; break;
             }
             return File(thumbPath, contentType);
+        }
+
+        // ==================== Access Management ====================
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult GrantUserAccess(int id, int userId, string accessLevel)
+        {
+            var check = RequireAdmin(); if (check != null) return check;
+            var existing = db.BookUsers.FirstOrDefault(bu => bu.BookProjectID == id && bu.UserId == userId);
+            if (existing != null)
+                existing.AccessLevel = accessLevel;
+            else
+                db.BookUsers.Add(new BookUser { BookProjectID = id, UserId = userId, AccessLevel = accessLevel, GrantedAt = DateTime.UtcNow });
+            db.SaveChanges();
+            return RedirectToAction("Edit", new { id });
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult RevokeUserAccess(int id, int bookUserId)
+        {
+            var check = RequireAdmin(); if (check != null) return check;
+            var bu = db.BookUsers.Find(bookUserId);
+            if (bu != null) { db.BookUsers.Remove(bu); db.SaveChanges(); }
+            return RedirectToAction("Edit", new { id });
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult GrantGroupAccess(int id, int groupId, string accessLevel)
+        {
+            var check = RequireAdmin(); if (check != null) return check;
+            var existing = db.BookGroups.FirstOrDefault(bg => bg.BookProjectID == id && bg.GroupId == groupId);
+            if (existing != null)
+                existing.AccessLevel = accessLevel;
+            else
+                db.BookGroups.Add(new BookGroup { BookProjectID = id, GroupId = groupId, AccessLevel = accessLevel, GrantedAt = DateTime.UtcNow });
+            db.SaveChanges();
+            return RedirectToAction("Edit", new { id });
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public ActionResult RevokeGroupAccess(int id, int bookGroupId)
+        {
+            var check = RequireAdmin(); if (check != null) return check;
+            var bg = db.BookGroups.Find(bookGroupId);
+            if (bg != null) { db.BookGroups.Remove(bg); db.SaveChanges(); }
+            return RedirectToAction("Edit", new { id });
         }
 
         // Helpers

@@ -2,6 +2,7 @@
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = "Book Editor - Projects";
+    bool isAdmin = ViewBag.IsAdmin == true;
 }
 
 @section Styles {
@@ -10,7 +11,10 @@
 
 <div class="page-header">
     <h1>Book Editor Projects</h1>
-    <a href="@Url.Action("Create")" class="btn btn-primary">Create New Project</a>
+    @if (isAdmin)
+    {
+        <a href="@Url.Action("Create")" class="btn btn-primary">Create New Project</a>
+    }
 </div>
 
 @if (TempData["Error"] != null)
@@ -21,7 +25,7 @@
 @if (Model.Projects.Count == 0)
 {
     <div class="empty-state">
-        <p>No book projects yet. Create your first project to get started.</p>
+        <p>No book projects yet.@(isAdmin ? " Create your first project to get started." : "")</p>
     </div>
 }
 else
@@ -29,6 +33,7 @@ else
     <div class="project-grid">
         @foreach (var project in Model.Projects)
         {
+            bool canEdit = isAdmin || project.AccessLevel == "Edit";
             <div class="project-card">
                 <div class="project-card-cover">
                     @if (!string.IsNullOrEmpty(project.CoverImagePath) && System.IO.File.Exists(project.CoverImagePath))
@@ -44,6 +49,12 @@ else
                 </div>
                 <div class="project-card-body">
                     <h3>@project.ProjectName</h3>
+                    @if (!isAdmin)
+                    {
+                        <span class="badge @(project.AccessLevel == "Edit" ? "badge-success" : "badge-secondary")">
+                            @(project.AccessLevel == "Edit" ? "Editor" : "Read Only")
+                        </span>
+                    }
                     <p class="project-stats">
                         @project.TotalChapters chapter@(project.TotalChapters != 1 ? "s" : "") &bull;
                         @project.TotalParagraphs paragraph@(project.TotalParagraphs != 1 ? "s" : "")
@@ -57,8 +68,14 @@ else
                     {
                         <a href="@Url.Action("Index", "Editor", new { projectId = project.BookProjectID })" class="btn btn-primary btn-sm">Open Editor</a>
                     }
-                    <a href="@Url.Action("Index", "FileUpload", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">Manage Files</a>
-                    <a href="@Url.Action("Edit", new { id = project.BookProjectID })" class="btn btn-secondary btn-sm">Edit</a>
+                    @if (canEdit)
+                    {
+                        <a href="@Url.Action("Index", "FileUpload", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">Manage Files</a>
+                    }
+                    @if (isAdmin)
+                    {
+                        <a href="@Url.Action("Edit", new { id = project.BookProjectID })" class="btn btn-secondary btn-sm">Edit</a>
+                    }
                     @if (project.TotalParagraphs > 0)
                     {
                         <a href="@Url.Action("Index", "Export", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">Export</a>
@@ -71,10 +88,13 @@ else
                     {
                         <a href="@Url.Action("Diff", "Draft", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">Compare Drafts</a>
                     }
-                    @using (Html.BeginForm("Delete", "BookProject", new { id = project.BookProjectID }, FormMethod.Post, new { style = "display:inline", onsubmit = "return confirm('Delete this project and all its data? This cannot be undone.');" }))
+                    @if (isAdmin)
                     {
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        @using (Html.BeginForm("Delete", "BookProject", new { id = project.BookProjectID }, FormMethod.Post, new { style = "display:inline", onsubmit = "return confirm('Delete this project and all its data? This cannot be undone.');" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        }
                     }
                 </div>
             </div>

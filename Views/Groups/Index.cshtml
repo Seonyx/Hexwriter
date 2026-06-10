@@ -1,0 +1,46 @@
+@model IEnumerable<HexWriter.Web.Models.ViewModels.Admin.GroupListItemViewModel>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Groups";
+}
+
+<div class="page-header">
+    <h1>Groups</h1>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Add Group</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="empty-state"><p>No groups yet.</p></div>
+}
+else
+{
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Members</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var group in Model)
+            {
+                <tr>
+                    <td>@group.Name</td>
+                    <td>@group.Description</td>
+                    <td>@group.MemberCount</td>
+                    <td class="table-actions">
+                        <a href="@Url.Action("Edit", new { id = group.Id })" class="btn btn-secondary btn-sm">Edit / Members</a>
+                        @using (Html.BeginForm("Delete", "Groups", new { id = group.Id }, FormMethod.Post, new { style = "display:inline", onsubmit = "return confirm('Delete this group?');" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

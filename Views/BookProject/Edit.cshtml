@@ -2,6 +2,10 @@
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = "Edit Project - " + Model.ProjectName;
+    var bookUsers  = ViewBag.BookUsers  as dynamic;
+    var bookGroups = ViewBag.BookGroups as dynamic;
+    var allUsers   = ViewBag.AllUsers   as dynamic;
+    var allGroups  = ViewBag.AllGroups  as dynamic;
 }
 
 @section Styles {
@@ -67,6 +71,103 @@
     <div class="form-actions">
         <button type="submit" class="btn btn-secondary">Upload Cover</button>
     </div>
+}
+
+<hr />
+
+<h2>Access</h2>
+
+<h3>User Access</h3>
+@if (bookUsers != null)
+{
+    <table class="table table-sm">
+        <thead><tr><th>User</th><th>Display Name</th><th>Level</th><th>Granted</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var bu in bookUsers)
+            {
+                <tr>
+                    <td>@bu.Username</td>
+                    <td>@bu.DisplayName</td>
+                    <td>@bu.AccessLevel</td>
+                    <td>@bu.GrantedAt.ToString("MMM d, yyyy")</td>
+                    <td>
+                        @using (Html.BeginForm("RevokeUserAccess", "BookProject", new { id = Model.BookProjectID, bookUserId = bu.Id }, FormMethod.Post, new { style = "display:inline" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-xs">Revoke</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h4>Grant User Access</h4>
+@using (Html.BeginForm("GrantUserAccess", "BookProject", new { id = Model.BookProjectID }, FormMethod.Post, new { @class = "form-inline" }))
+{
+    @Html.AntiForgeryToken()
+    <select name="userId" class="form-control" style="width:auto;display:inline-block;margin-right:0.5rem;">
+        @if (allUsers != null)
+        {
+            foreach (var u in allUsers)
+            {
+                <option value="@u.Id">@u.Username (@u.DisplayName)</option>
+            }
+        }
+    </select>
+    <select name="accessLevel" class="form-control" style="width:auto;display:inline-block;margin-right:0.5rem;">
+        <option value="Read">Read</option>
+        <option value="Edit">Edit</option>
+    </select>
+    <button type="submit" class="btn btn-primary btn-sm">Grant</button>
+}
+
+<hr />
+
+<h3>Group Access</h3>
+@if (bookGroups != null)
+{
+    <table class="table table-sm">
+        <thead><tr><th>Group</th><th>Level</th><th>Granted</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var bg in bookGroups)
+            {
+                <tr>
+                    <td>@bg.Name</td>
+                    <td>@bg.AccessLevel</td>
+                    <td>@bg.GrantedAt.ToString("MMM d, yyyy")</td>
+                    <td>
+                        @using (Html.BeginForm("RevokeGroupAccess", "BookProject", new { id = Model.BookProjectID, bookGroupId = bg.Id }, FormMethod.Post, new { style = "display:inline" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-danger btn-xs">Revoke</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<h4>Grant Group Access</h4>
+@using (Html.BeginForm("GrantGroupAccess", "BookProject", new { id = Model.BookProjectID }, FormMethod.Post, new { @class = "form-inline" }))
+{
+    @Html.AntiForgeryToken()
+    <select name="groupId" class="form-control" style="width:auto;display:inline-block;margin-right:0.5rem;">
+        @if (allGroups != null)
+        {
+            foreach (var g in allGroups)
+            {
+                <option value="@g.Id">@g.Name</option>
+            }
+        }
+    </select>
+    <select name="accessLevel" class="form-control" style="width:auto;display:inline-block;margin-right:0.5rem;">
+        <option value="Read">Read</option>
+        <option value="Edit">Edit</option>
+    </select>
+    <button type="submit" class="btn btn-primary btn-sm">Grant</button>
 }
 
 <hr />

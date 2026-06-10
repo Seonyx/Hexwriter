@@ -30,8 +30,10 @@ HexWriter is a standalone book-editor web application at Hexwriter.com, extracte
 
 **3. Run EF migrations (first time only):**
 - Open Package Manager Console (Tools → NuGet Package Manager → Package Manager Console)
+- Set Default project to `HexWriter` in the PMC dropdown
 - Run: `Update-Database`
-- This creates the `Users` table and seeds the admin account (admin / ChangeMe123!)
+- This creates the `Users`, `Groups`, `GroupUsers`, `BookGroups`, and `BookUsers` tables, and seeds the admin account (admin / ChangeMe123!)
+- If `Update-Database` fails (network/Dropbox sandboxing): run `Database\migrations\Phase2_AddUsers.sql` and `Database\migrations\Phase3_AddPermissions.sql` directly in SSMS instead
 
 **4. Build:**
 - Right-click solution → Restore NuGet Packages
@@ -41,7 +43,8 @@ HexWriter is a standalone book-editor web application at Hexwriter.com, extracte
 ## Architecture
 
 - **Database**: Manual SQL schema (`Database/hexwriter-schema.sql`). EF `SetInitializer` is disabled — no automatic migration on startup. New tables added in Phases 2+ use EF6 Code First migrations.
-- **Authentication**: Currently Forms Authentication with a single admin account (web.config hash — to be replaced in Phase 2).
+- **Authentication**: Forms Authentication. Login at `/account/login`. FormsAuthenticationTicket.UserData = `"{Id}|{Username}|{Role}"`. Parse via `AuthHelper.GetCurrentUser()`. Admin is seeded at startup (admin / ChangeMe123!).
+- **Permissions**: `PermissionsService.GetEffectiveAccess(userId, bookProjectId)` returns "Edit", "Read", or null. Admin bypasses all checks. Users and Groups managed at `/admin/users` and `/admin/groups`.
 - **DbContext**: `HexWriter.Web.Models.HexWriterContext`
 - **Layouts**: Admin pages use `_AdminLayout.cshtml`; book editor pages use `_BookEditorLayout.cshtml`
 - **Routes**: All routes are under `/admin/...` — there is no public-facing website. Defined in `App_Start/RouteConfig.cs`.

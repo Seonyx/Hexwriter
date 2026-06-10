@@ -1,0 +1,82 @@
+@model HexWriter.Web.Models.ViewModels.Admin.GroupEditViewModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Edit Group — " + Model.Name;
+}
+
+<div class="page-header">
+    <h1>Edit Group: @Model.Name</h1>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Back</a>
+</div>
+
+@using (Html.BeginForm("Edit", "Groups", FormMethod.Post, new { @class = "admin-form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-error" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description)
+        @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+}
+
+<hr />
+
+<h2>Members</h2>
+
+@if (Model.Members.Any())
+{
+    <table class="admin-table">
+        <thead><tr><th>Username</th><th>Display Name</th><th>Added</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var m in Model.Members)
+            {
+                <tr>
+                    <td>@m.Username</td>
+                    <td>@m.DisplayName</td>
+                    <td>@m.AddedAt.ToString("dd MMM yyyy")</td>
+                    <td>
+                        @using (Html.BeginForm("RemoveMember", "Groups", FormMethod.Post, new { style = "display:inline" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="groupUserId" value="@m.GroupUserId" />
+                            <input type="hidden" name="groupId" value="@Model.Id" />
+                            <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p class="text-muted">No members yet.</p>
+}
+
+@if (Model.AllUsers.Any())
+{
+    <h3>Add Member</h3>
+    @using (Html.BeginForm("AddMember", "Groups", FormMethod.Post, new { @class = "form-inline" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="groupId" value="@Model.Id" />
+        <select name="userId" class="form-control" style="margin-right:0.5rem;">
+            @foreach (var u in Model.AllUsers)
+            {
+                <option value="@u.Id">@u.Username (@u.DisplayName)</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-secondary">Add</button>
+    }
+}

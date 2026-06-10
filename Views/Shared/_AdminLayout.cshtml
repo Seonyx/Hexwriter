@@ -1,3 +1,7 @@
+@using HexWriter.Web.Helpers
+@{
+    var layoutUser = AuthHelper.GetCurrentUser(new HttpContextWrapper(HttpContext.Current));
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,8 +32,13 @@
             <nav class="admin-nav">
                 <a href="/admin">Dashboard</a>
                 <a href="/admin/bookeditor/projects">Book Editor</a>
-                <a href="/admin/settings">Settings</a>
-                <a href="/admin/logout" class="btn-logout">Logout</a>
+                @if (layoutUser != null && layoutUser.IsAdmin)
+                {
+                    <a href="/admin/users">Users</a>
+                    <a href="/admin/groups">Groups</a>
+                    <a href="/admin/settings">Settings</a>
+                }
+                <a href="/account/logout" class="btn-logout">Logout</a>
             </nav>
         </div>
     </header>

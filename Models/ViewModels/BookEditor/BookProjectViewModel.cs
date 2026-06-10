@@ -26,6 +26,7 @@ namespace HexWriter.Web.Models.ViewModels.BookEditor
         public int TotalChapters { get; set; }
         public int TotalParagraphs { get; set; }
         public int CurrentDraftNumber { get; set; }
+        public string AccessLevel { get; set; } // "Edit" or "Read"; populated by Index action
     }
 
     public class BookProjectListViewModel

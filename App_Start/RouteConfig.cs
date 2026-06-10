@@ -85,6 +85,19 @@ namespace HexWriter.Web
                 defaults: new { controller = "ImportProgress", action = "Status" }
             );
 
+            // User & Group management routes
+            routes.MapRoute(
+                name: "Users",
+                url: "admin/users/{action}/{id}",
+                defaults: new { controller = "Users", action = "Index", id = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
+                name: "Groups",
+                url: "admin/groups/{action}/{id}",
+                defaults: new { controller = "Groups", action = "Index", id = UrlParameter.Optional }
+            );
+
             // Generic admin catch-all
             routes.MapRoute(
                 name: "Admin",

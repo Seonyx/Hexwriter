@@ -1,0 +1,41 @@
+@model IEnumerable<HexWriter.Web.Models.ViewModels.Admin.UserListItemViewModel>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Users";
+}
+
+<div class="page-header">
+    <h1>Users</h1>
+    <a href="@Url.Action("Create")" class="btn btn-primary">Add User</a>
+</div>
+
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Display Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Last Login</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr class="@(user.IsActive ? "" : "row-inactive")">
+                <td>@user.Username</td>
+                <td>@user.DisplayName</td>
+                <td>@user.Email</td>
+                <td><span class="badge badge-@(user.Role == "Admin" ? "admin" : "reviewer")">@user.Role</span></td>
+                <td>@(user.IsActive ? "Active" : "Inactive")</td>
+                <td>@(user.LastLoginAt.HasValue ? user.LastLoginAt.Value.ToString("dd MMM yyyy") : "Never")</td>
+                <td class="table-actions">
+                    <a href="@Url.Action("Edit", new { id = user.Id })" class="btn btn-secondary btn-sm">Edit</a>
+                    <a href="@Url.Action("ResetPassword", new { id = user.Id })" class="btn btn-secondary btn-sm">Reset Password</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

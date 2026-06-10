@@ -5,6 +5,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using HexWriter.Web.Helpers;
 using HexWriter.Web.Models;
 using HexWriter.Web.Models.ViewModels.BookEditor;
 using HexWriter.Web.Services;
@@ -101,6 +102,7 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Upload(int projectId, IEnumerable<HttpPostedFileBase> files)
         {
+            if (!CanEdit(projectId)) return new HttpStatusCodeResult(403);
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -164,6 +166,7 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteFile(int projectId, string fileName)
         {
+            if (!CanEdit(projectId)) return new HttpStatusCodeResult(403);
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -187,6 +190,7 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ImportFiles(int projectId)
         {
+            if (!CanEdit(projectId)) return new HttpStatusCodeResult(403);
 
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
@@ -219,6 +223,7 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult StartImport(int projectId)
         {
+            if (!CanEdit(projectId)) return Json(new { error = "Edit access required" });
 
             var project = db.BookProjects.Find(projectId);
             if (project == null)
@@ -743,6 +748,14 @@ namespace HexWriter.Web.Controllers
             return null;
         }
 
+
+        private bool CanEdit(int bookProjectId)
+        {
+            var user = AuthHelper.GetCurrentUser(HttpContext);
+            if (user == null) return false;
+            if (user.IsAdmin) return true;
+            return new PermissionsService(db).CanEdit(user.Id, bookProjectId);
+        }
 
         protected override void Dispose(bool disposing)
         {

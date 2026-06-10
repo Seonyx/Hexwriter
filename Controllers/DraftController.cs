@@ -7,8 +7,10 @@ using System.Text;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using ContentAnalysisEngine;
+using HexWriter.Web.Helpers;
 using HexWriter.Web.Models;
 using HexWriter.Web.Models.ViewModels.BookEditor;
+using HexWriter.Web.Services;
 
 namespace HexWriter.Web.Controllers
 {
@@ -214,6 +216,7 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteDraft(int projectId, int draftNumber)
         {
+            if (!CanEdit(projectId)) return new HttpStatusCodeResult(403);
             var project = db.BookProjects.Find(projectId);
             if (project == null)
                 return HttpNotFound();
@@ -326,6 +329,7 @@ namespace HexWriter.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult GenerateWorkOrders(int projectId, int chapterId, int draftNumber)
         {
+            if (!CanEdit(projectId)) return new HttpStatusCodeResult(403);
             var project = db.BookProjects.Find(projectId);
             if (project == null) return HttpNotFound();
 
@@ -397,6 +401,7 @@ namespace HexWriter.Web.Controllers
         [ValidateInput(false)]
         public ActionResult ExportWorkOrders(int projectId, int chapterId, int draftNumber, string manifestXml)
         {
+            if (!CanEdit(projectId)) return new HttpStatusCodeResult(403);
             if (string.IsNullOrEmpty(manifestXml))
                 return new HttpStatusCodeResult(400, "No manifest XML provided.");
 
@@ -568,6 +573,14 @@ namespace HexWriter.Web.Controllers
                 case "manual":          return "Manual";
                 default:                return type;
             }
+        }
+
+        private bool CanEdit(int bookProjectId)
+        {
+            var user = AuthHelper.GetCurrentUser(HttpContext);
+            if (user == null) return false;
+            if (user.IsAdmin) return true;
+            return new PermissionsService(db).CanEdit(user.Id, bookProjectId);
         }
 
         protected override void Dispose(bool disposing)

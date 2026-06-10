@@ -1,0 +1,42 @@
+@model HexWriter.Web.Models.ViewModels.Admin.EditUserViewModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Edit User — " + Model.Username;
+}
+
+<div class="page-header">
+    <h1>Edit User: @Model.Username</h1>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Back</a>
+</div>
+
+@using (Html.BeginForm("Edit", "Users", FormMethod.Post, new { @class = "admin-form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Username)
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-error" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.DisplayName)
+        @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.DisplayName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Role)
+        @Html.DropDownListFor(m => m.Role, new SelectList(new[] { "Reviewer", "Admin" }), new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Role, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <label>@Html.CheckBoxFor(m => m.IsActive) Active</label>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="@Url.Action("ResetPassword", new { id = Model.Id })" class="btn btn-secondary">Reset Password</a>
+        <a href="@Url.Action("Index")" class="btn btn-secondary">Cancel</a>
+    </div>
+}
