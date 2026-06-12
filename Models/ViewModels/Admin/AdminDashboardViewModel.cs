@@ -5,7 +5,6 @@ namespace HexWriter.Web.Models.ViewModels.Admin
         public int TotalPages { get; set; }
         public int TotalAuthors { get; set; }
         public int TotalBooks { get; set; }
-        public int UnreadSubmissions { get; set; }
-        public int TotalDivisions { get; set; }
+public int TotalDivisions { get; set; }
     }
 }

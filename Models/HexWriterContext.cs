@@ -12,9 +12,7 @@ namespace HexWriter.Web.Models
         public DbSet<Page> Pages { get; set; }
         public DbSet<Division> Divisions { get; set; }
         public DbSet<ContentBlock> ContentBlocks { get; set; }
-        public DbSet<ContactSubmission> ContactSubmissions { get; set; }
-        public DbSet<PaidContactSubmission> PaidContactSubmissions { get; set; }
-        public DbSet<Author> Authors { get; set; }
+public DbSet<Author> Authors { get; set; }
         public DbSet<Book> Books { get; set; }
         public DbSet<SiteSetting> SiteSettings { get; set; }
 

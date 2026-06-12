@@ -22,7 +22,6 @@ namespace HexWriter.Web.Controllers
                 TotalAuthors = db.Authors.Count(),
                 TotalBooks = db.Books.Count(),
                 TotalDivisions = db.Divisions.Count(),
-                UnreadSubmissions = db.ContactSubmissions.Count(s => !s.IsRead)
             };
 
             return View(model);
@@ -318,63 +317,6 @@ namespace HexWriter.Web.Controllers
 
             db.SaveChanges();
             return RedirectToAction("ContentBlocks");
-        }
-
-        // ==================== Contact Submissions ====================
-
-        public ActionResult Submissions()
-        {
-
-            var submissions = db.ContactSubmissions
-                .OrderByDescending(s => s.SubmittedDate)
-                .ToList();
-
-            return View("ContactSubmissions/Index", submissions);
-        }
-
-        public ActionResult ViewSubmission(int id)
-        {
-
-            var submission = db.ContactSubmissions.Find(id);
-            if (submission == null) return HttpNotFound();
-
-            if (!submission.IsRead)
-            {
-                submission.IsRead = true;
-                db.SaveChanges();
-            }
-
-            return View("ContactSubmissions/View", submission);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteSubmission(int id)
-        {
-
-            var submission = db.ContactSubmissions.Find(id);
-            if (submission != null)
-            {
-                db.ContactSubmissions.Remove(submission);
-                db.SaveChanges();
-            }
-
-            return RedirectToAction("Submissions");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult MarkAsSpam(int id)
-        {
-
-            var submission = db.ContactSubmissions.Find(id);
-            if (submission != null)
-            {
-                submission.IsSpam = true;
-                db.SaveChanges();
-            }
-
-            return RedirectToAction("Submissions");
         }
 
         // ==================== Settings ====================
