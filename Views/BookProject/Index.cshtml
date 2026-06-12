@@ -90,7 +90,7 @@ else
                     }
                     @if (isAdmin)
                     {
-                        @using (Html.BeginForm("Delete", "BookProject", new { id = project.BookProjectID }, FormMethod.Post, new { style = "display:inline", onsubmit = "return confirm('Delete this project and all its data? This cannot be undone.');" }))
+                        using (Html.BeginForm("Delete", "BookProject", new { id = project.BookProjectID }, FormMethod.Post, new { style = "display:inline", onsubmit = "return confirm('Delete this project and all its data? This cannot be undone.');" }))
                         {
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-danger btn-sm">Delete</button>
