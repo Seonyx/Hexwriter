@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using HexWriter.Web.Helpers;
 using HexWriter.Web.Models;
+using HexWriter.Web.Models.ViewModels.Admin;
 using HexWriter.Web.Models.ViewModels.BookEditor;
 using HexWriter.Web.Services;
 
@@ -150,17 +151,17 @@ namespace HexWriter.Web.Controllers
 
             ViewBag.BookUsers  = db.BookUsers.Where(bu => bu.BookProjectID == id)
                                     .Join(db.Users, bu => bu.UserId, u => u.Id,
-                                          (bu, u) => new { bu.Id, u.Username, u.DisplayName, bu.AccessLevel, bu.GrantedAt })
+                                          (bu, u) => new BookUserAccessViewModel { BookUserId = bu.Id, Username = u.Username, DisplayName = u.DisplayName, AccessLevel = bu.AccessLevel, GrantedAt = bu.GrantedAt })
                                     .OrderBy(x => x.Username).ToList();
             ViewBag.BookGroups = db.BookGroups.Where(bg => bg.BookProjectID == id)
                                     .Join(db.Groups, bg => bg.GroupId, g => g.Id,
-                                          (bg, g) => new { bg.Id, g.Name, bg.AccessLevel, bg.GrantedAt })
+                                          (bg, g) => new BookGroupAccessViewModel { BookGroupId = bg.Id, Name = g.Name, AccessLevel = bg.AccessLevel, GrantedAt = bg.GrantedAt })
                                     .OrderBy(x => x.Name).ToList();
             ViewBag.AllUsers   = db.Users.Where(u => u.IsActive)
                                     .OrderBy(u => u.Username)
-                                    .Select(u => new { u.Id, u.Username, u.DisplayName }).ToList();
+                                    .Select(u => new GrantUserAccessViewModel { Id = u.Id, Username = u.Username, DisplayName = u.DisplayName }).ToList();
             ViewBag.AllGroups  = db.Groups.OrderBy(g => g.Name)
-                                    .Select(g => new { g.Id, g.Name }).ToList();
+                                    .Select(g => new GrantGroupAccessViewModel { Id = g.Id, Name = g.Name }).ToList();
 
             return View(model);
         }

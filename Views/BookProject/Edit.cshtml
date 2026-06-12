@@ -1,11 +1,12 @@
 @model HexWriter.Web.Models.ViewModels.BookEditor.BookProjectViewModel
+@using HexWriter.Web.Models.ViewModels.Admin
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = "Edit Project - " + Model.ProjectName;
-    var bookUsers  = ViewBag.BookUsers  as dynamic;
-    var bookGroups = ViewBag.BookGroups as dynamic;
-    var allUsers   = ViewBag.AllUsers   as dynamic;
-    var allGroups  = ViewBag.AllGroups  as dynamic;
+    var bookUsers  = ViewBag.BookUsers  as List<BookUserAccessViewModel>;
+    var bookGroups = ViewBag.BookGroups as List<BookGroupAccessViewModel>;
+    var allUsers   = ViewBag.AllUsers   as List<GrantUserAccessViewModel>;
+    var allGroups  = ViewBag.AllGroups  as List<GrantGroupAccessViewModel>;
 }
 
 @section Styles {
@@ -91,7 +92,7 @@
                     <td>@bu.AccessLevel</td>
                     <td>@bu.GrantedAt.ToString("MMM d, yyyy")</td>
                     <td>
-                        @using (Html.BeginForm("RevokeUserAccess", "BookProject", new { id = Model.BookProjectID, bookUserId = bu.Id }, FormMethod.Post, new { style = "display:inline" }))
+                        @using (Html.BeginForm("RevokeUserAccess", "BookProject", new { id = Model.BookProjectID, bookUserId = bu.BookUserId }, FormMethod.Post, new { style = "display:inline" }))
                         {
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-danger btn-xs">Revoke</button>
@@ -112,7 +113,7 @@
         {
             foreach (var u in allUsers)
             {
-                <option value="@u.Id">@u.Username (@u.DisplayName)</option>
+                <option value="@u.Id">@u.Username — @u.DisplayName</option>
             }
         }
     </select>
@@ -138,7 +139,7 @@
                     <td>@bg.AccessLevel</td>
                     <td>@bg.GrantedAt.ToString("MMM d, yyyy")</td>
                     <td>
-                        @using (Html.BeginForm("RevokeGroupAccess", "BookProject", new { id = Model.BookProjectID, bookGroupId = bg.Id }, FormMethod.Post, new { style = "display:inline" }))
+                        @using (Html.BeginForm("RevokeGroupAccess", "BookProject", new { id = Model.BookProjectID, bookGroupId = bg.BookGroupId }, FormMethod.Post, new { style = "display:inline" }))
                         {
                             @Html.AntiForgeryToken()
                             <button type="submit" class="btn btn-danger btn-xs">Revoke</button>

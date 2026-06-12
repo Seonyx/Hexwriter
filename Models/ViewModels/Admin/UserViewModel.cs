@@ -3,6 +3,36 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HexWriter.Web.Models.ViewModels.Admin
 {
+    public class BookUserAccessViewModel
+    {
+        public int BookUserId { get; set; }
+        public string Username { get; set; }
+        public string DisplayName { get; set; }
+        public string AccessLevel { get; set; }
+        public DateTime GrantedAt { get; set; }
+    }
+
+    public class BookGroupAccessViewModel
+    {
+        public int BookGroupId { get; set; }
+        public string Name { get; set; }
+        public string AccessLevel { get; set; }
+        public DateTime GrantedAt { get; set; }
+    }
+
+    public class GrantUserAccessViewModel
+    {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string DisplayName { get; set; }
+    }
+
+    public class GrantGroupAccessViewModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
     public class UserListItemViewModel
     {
         public int Id { get; set; }
