@@ -8,11 +8,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewBag.Title - HexWriter Admin</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="~/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="~/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="~/favicon-16x16.png" />
+    <link rel="icon" href="~/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="~/favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" href="~/apple-touch-icon.png" />
     <link rel="manifest" href="~/site.webmanifest" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <meta name="theme-color" content="#232046" />
+    <meta property="og:title" content="Hexwriter — the long-form book editor" />
+    <meta property="og:image" content="~/Content/images/social/og-image-1200x630.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="~/Content/css/site.css" rel="stylesheet" />
     <link href="~/Content/css/admin.css" rel="stylesheet" />
     @RenderSection("Styles", required: false)
@@ -21,13 +25,7 @@
     <header class="admin-header">
         <div class="container">
             <a href="/admin" class="admin-brand">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
-                    <path d="M 50 50 L 0 0 L 50 0 Z" fill="#7C3AED" />
-                    <path d="M 50 50 L 100 0 L 100 50 Z" fill="#10B981" />
-                    <path d="M 50 50 L 100 100 L 50 100 Z" fill="#7C3AED" />
-                    <path d="M 50 50 L 0 100 L 0 50 Z" fill="#10B981" />
-                </svg>
-                <span>HexWriter Admin</span>
+                <img src="~/Content/images/hexwriter-lockup-reversed.svg" alt="Hexwriter" />
             </a>
             <nav class="admin-nav">
                 <a href="/admin">Dashboard</a>

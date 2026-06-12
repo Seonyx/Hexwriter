@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 400">
+<g transform="translate(40 40) scale(0.625)"><g><path d="M256.0 36.0 L446.5 146.0 L446.5 366.0 L256.0 476.0 L65.5 366.0 L65.5 146.0 Z M230 296 a26 26 0 1 0 52 0 a26 26 0 1 0 -52 0 Z M247 339 A9 9 0 0 1 265 339 V459 A9 9 0 0 1 247 459 Z" fill="#F5EFE3" fill-rule="evenodd"/><path d="M446.5 366.0 L256.0 476.0 L65.5 366.0 Z M247 366 H265 V459 A9 9 0 0 1 247 459 Z" fill="#EF9F27" fill-rule="evenodd"/></g></g>
+<text x="420" y="232" font-family="DejaVu Serif, serif" font-size="148" font-weight="bold">
+<tspan fill="#AFA9EC">Hex</tspan><tspan fill="#F5EFE3">writer</tspan></text>
+<text x="428" y="312" font-family="DejaVu Sans, sans-serif" font-size="36" letter-spacing="10" fill="#B4AE9E">LONG-FORM, STRUCTURED</text>
+</svg>

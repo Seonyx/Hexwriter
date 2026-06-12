@@ -1,15 +1,15 @@
 /* ============================================
-   Seonyx Holdings - Admin Stylesheet
+   HexWriter - Admin Stylesheet
    ============================================ */
 
 /* ============ Admin Layout ============ */
 
 .admin-body {
-    background: var(--color-gray-50);
+    background: var(--parchment);
 }
 
 .login-body {
-    background: var(--color-gray-50);
+    background: var(--parchment);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,8 +48,8 @@
 /* ============ Admin Header ============ */
 
 .admin-header {
-    background: #FFFFFF;
-    border-bottom: 1px solid var(--color-gray-200);
+    background: var(--midnight-ink);
+    border-bottom: none;
     padding: var(--spacing-sm) 0;
 }
 
@@ -66,9 +66,14 @@
     align-items: center;
     gap: var(--spacing-xs);
     text-decoration: none;
-    color: var(--color-gray-800);
+    color: var(--parchment);
     font-weight: 700;
     font-size: 1.125rem;
+}
+
+.admin-brand img {
+    height: 36px;
+    width: auto;
 }
 
 .admin-nav {
@@ -79,24 +84,26 @@
 }
 
 .admin-nav a {
-    color: var(--color-gray-600);
+    color: var(--violet-100);
     font-size: 0.875rem;
     font-weight: 500;
     padding: 4px 8px;
     border-radius: var(--radius-sm);
+    transition: color 0.2s, background 0.2s;
 }
 
 .admin-nav a:hover {
-    color: var(--color-brand-purple);
-    background: var(--color-gray-50);
+    color: var(--parchment);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .btn-logout {
-    color: #EF4444 !important;
+    color: #FCA5A5 !important;
 }
 
 .btn-logout:hover {
-    background: #FEF2F2 !important;
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #FCA5A5 !important;
 }
 
 /* ============ Admin Content ============ */
@@ -138,13 +145,13 @@
     display: block;
     font-size: 2.5rem;
     font-weight: 800;
-    color: var(--color-gray-800);
+    color: var(--midnight-ink);
     line-height: 1;
 }
 
 .stat-label {
     display: block;
-    color: var(--color-gray-500);
+    color: var(--ink-muted);
     font-size: 0.875rem;
     margin-top: var(--spacing-xs);
     margin-bottom: var(--spacing-xs);
@@ -156,12 +163,12 @@
 }
 
 .stat-highlight {
-    border-color: var(--color-brand-purple);
-    background: #FAF5FF;
+    border-color: var(--hex-violet);
+    background: #F5F4FF;
 }
 
 .stat-highlight .stat-number {
-    color: var(--color-brand-purple);
+    color: var(--hex-violet);
 }
 
 /* ============ Quick Actions ============ */
@@ -222,7 +229,7 @@
 }
 
 .admin-table tr.unread {
-    background: #FAF5FF;
+    background: #F5F4FF;
     font-weight: 500;
 }
 
@@ -275,7 +282,7 @@
 .form-help {
     display: block;
     font-weight: 400;
-    color: var(--color-gray-400);
+    color: var(--ink-muted);
     font-size: 0.8125rem;
 }
 

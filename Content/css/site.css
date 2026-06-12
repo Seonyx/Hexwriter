@@ -1,15 +1,21 @@
 /* ============================================
-   Seonyx Holdings - Main Stylesheet
+   HexWriter - Main Stylesheet
    ============================================ */
 
 :root {
-    /* Brand Colors */
-    --color-brand-purple: #7C3AED;
-    --color-brand-purple-hover: #6D28D9;
-    --color-brand-purple-light: #A78BFA;
-    --color-brand-green: #10B981;
-    --color-brand-green-hover: #059669;
-    --color-brand-green-light: #34D399;
+    /* HexWriter Brand Palette */
+    --midnight-ink:  #232046;
+    --deep-violet:   #3C3489;
+    --hex-violet:    #534AB7;
+    --violet-100:    #CECBF6;
+    --parchment:     #F5EFE3;
+    --quill-gold:    #EF9F27;
+    --ink-muted:     #7A7466;
+
+    /* Mapped aliases (used throughout below) */
+    --color-brand-purple:       var(--hex-violet);
+    --color-brand-purple-hover: var(--deep-violet);
+    --color-brand-purple-light: var(--violet-100);
 
     /* Grays */
     --color-gray-50: #F9FAFB;
@@ -62,14 +68,15 @@ body {
     font-family: 'Inter', 'Helvetica Neue', 'Segoe UI', 'Roboto', 'Arial', sans-serif;
     font-weight: 400;
     line-height: 1.6;
-    color: var(--color-gray-700);
-    background-color: #FFFFFF;
+    color: var(--midnight-ink);
+    background-color: var(--parchment);
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-weight: 700;
+    font-family: 'Fraunces', 'Georgia', serif;
+    font-weight: 600;
     line-height: 1.3;
-    color: var(--color-gray-800);
+    color: var(--deep-violet);
     margin-bottom: var(--spacing-sm);
 }
 
@@ -83,13 +90,13 @@ h6 { font-size: 1rem; }
 p { margin-bottom: var(--spacing-sm); }
 
 a {
-    color: var(--color-brand-purple);
+    color: var(--hex-violet);
     text-decoration: none;
     transition: color 0.2s;
 }
 
 a:hover {
-    color: var(--color-brand-purple-hover);
+    color: var(--deep-violet);
 }
 
 img {
@@ -643,8 +650,8 @@ code {
 }
 
 .form-control:focus {
-    border-color: var(--color-brand-purple);
-    outline: 2px solid rgba(124, 58, 237, 0.2);
+    border-color: var(--hex-violet);
+    outline: 2px solid var(--quill-gold);
     outline-offset: 2px;
 }
 
@@ -803,6 +810,11 @@ textarea.form-control {
     color: #065F46;
 }
 
+.badge-secondary {
+    background: var(--violet-100);
+    color: var(--midnight-ink);
+}
+
 .badge-draft {
     background: var(--color-gray-100);
     color: var(--color-gray-500);
@@ -904,7 +916,7 @@ textarea.form-control {
 /* ============ Focus States ============ */
 
 :focus {
-    outline: 2px solid var(--color-brand-purple);
+    outline: 2px solid var(--quill-gold);
     outline-offset: 2px;
 }
 
@@ -913,7 +925,7 @@ a:focus,
 input:focus,
 select:focus,
 textarea:focus {
-    outline: 2px solid var(--color-brand-purple);
+    outline: 2px solid var(--quill-gold);
     outline-offset: 2px;
 }
 
