@@ -1,4 +1,5 @@
 @model HexWriter.Web.Models.ViewModels.BookEditor.BookProjectListViewModel
+@using System.Web
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = "Book Editor - Projects";
@@ -10,10 +11,10 @@
 }
 
 <div class="page-header">
-    <h1>Book Editor Projects</h1>
+    <h1>@Strings.BookProject_Title</h1>
     @if (isAdmin)
     {
-        <a href="@Url.Action("Create")" class="btn btn-primary">Create New Project</a>
+        <a href="@Url.Action("Create")" class="btn btn-primary">@Strings.Btn_CreateNewProject</a>
     }
 </div>
 
@@ -25,7 +26,7 @@
 @if (Model.Projects.Count == 0)
 {
     <div class="empty-state">
-        <p>No book projects yet.@(isAdmin ? " Create your first project to get started." : "")</p>
+        <p>@Strings.BookProject_NoProjects@(isAdmin ? " " + Strings.BookProject_CreateFirst : "")</p>
     </div>
 }
 else
@@ -43,7 +44,7 @@ else
                     else
                     {
                         <div class="project-card-placeholder">
-                            <span>No Cover</span>
+                            <span>@Strings.BookProject_NoCover</span>
                         </div>
                     }
                 </div>
@@ -52,48 +53,49 @@ else
                     @if (!isAdmin)
                     {
                         <span class="badge @(project.AccessLevel == "Edit" ? "badge-success" : "badge-secondary")">
-                            @(project.AccessLevel == "Edit" ? "Editor" : "Read Only")
+                            @(project.AccessLevel == "Edit" ? Strings.Badge_Editor : Strings.Badge_ReadOnly)
                         </span>
                     }
                     <p class="project-stats">
-                        @project.TotalChapters chapter@(project.TotalChapters != 1 ? "s" : "") &bull;
-                        @project.TotalParagraphs paragraph@(project.TotalParagraphs != 1 ? "s" : "")
+                        @project.TotalChapters @(project.TotalChapters != 1 ? Strings.Label_Chapters : Strings.Label_Chapter) &bull;
+                        @project.TotalParagraphs @(project.TotalParagraphs != 1 ? Strings.Label_Paragraphs : Strings.Label_Paragraph)
                     </p>
                     <p class="project-date">
-                        Last modified: @project.LastModifiedDate.ToString("MMM d, yyyy h:mm tt")
+                        @Strings.Label_LastModified @project.LastModifiedDate.ToString("MMM d, yyyy h:mm tt")
                     </p>
                 </div>
                 <div class="project-card-actions">
                     @if (project.TotalParagraphs > 0)
                     {
-                        <a href="@Url.Action("Index", "Editor", new { projectId = project.BookProjectID })" class="btn btn-primary btn-sm">Open Editor</a>
+                        <a href="@Url.Action("Index", "Editor", new { projectId = project.BookProjectID })" class="btn btn-primary btn-sm">@Strings.Btn_OpenEditor</a>
                     }
                     @if (canEdit)
                     {
-                        <a href="@Url.Action("Index", "FileUpload", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">Manage Files</a>
+                        <a href="@Url.Action("Index", "FileUpload", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">@Strings.Btn_ManageFiles</a>
                     }
                     @if (isAdmin)
                     {
-                        <a href="@Url.Action("Edit", new { id = project.BookProjectID })" class="btn btn-secondary btn-sm">Edit</a>
+                        <a href="@Url.Action("Edit", new { id = project.BookProjectID })" class="btn btn-secondary btn-sm">@Strings.Btn_Edit</a>
                     }
                     @if (project.TotalParagraphs > 0)
                     {
-                        <a href="@Url.Action("Index", "Export", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">Export</a>
+                        <a href="@Url.Action("Index", "Export", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">@Strings.Btn_Export</a>
                     }
                     @if (project.CurrentDraftNumber >= 1)
                     {
-                        <a href="@Url.Action("Index", "Draft", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">Manage Drafts</a>
+                        <a href="@Url.Action("Index", "Draft", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">@Strings.Btn_ManageDrafts</a>
                     }
                     @if (project.CurrentDraftNumber >= 2)
                     {
-                        <a href="@Url.Action("Diff", "Draft", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">Compare Drafts</a>
+                        <a href="@Url.Action("Diff", "Draft", new { projectId = project.BookProjectID })" class="btn btn-secondary btn-sm">@Strings.Btn_CompareDrafts</a>
                     }
                     @if (isAdmin)
                     {
-                        using (Html.BeginForm("Delete", "BookProject", new { id = project.BookProjectID }, FormMethod.Post, new { style = "display:inline", onsubmit = "return confirm('Delete this project and all its data? This cannot be undone.');" }))
+                        @{var confirmMsg = HttpUtility.JavaScriptStringEncode(Strings.Confirm_DeleteProject);}
+                        using (Html.BeginForm("Delete", "BookProject", new { id = project.BookProjectID }, FormMethod.Post, new { style = "display:inline", onsubmit = "return confirm('" + confirmMsg + "');" }))
                         {
                             @Html.AntiForgeryToken()
-                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm">@Strings.Btn_Delete</button>
                         }
                     }
                 </div>

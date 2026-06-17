@@ -228,10 +228,21 @@
     <Compile Include="Controllers\DraftController.cs" />
     <Compile Include="Controllers\ImportProgressController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Resources\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewModels\BookEditor\DraftDiffViewModel.cs" />
     <Compile Include="Models\ViewModels\BookEditor\DraftAnalysisViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Strings.es.resx" />
     <Content Include="Content\css\site.css" />
     <Content Include="Content\css\admin.css" />
     <Content Include="Content\images\logo.svg" />
@@ -276,6 +287,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\web.config" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\_LanguageSelector.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Users\Create.cshtml" />

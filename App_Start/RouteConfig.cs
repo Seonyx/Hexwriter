@@ -85,6 +85,13 @@ namespace HexWriter.Web
                 defaults: new { controller = "ImportProgress", action = "Status" }
             );
 
+            // Language switching
+            routes.MapRoute(
+                name: "SetLanguage",
+                url: "set-language",
+                defaults: new { controller = "Language", action = "Set" }
+            );
+
             // User & Group management routes
             routes.MapRoute(
                 name: "Users",

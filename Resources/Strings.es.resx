@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/2001/XMLSchema" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- ===== Navigation ===== -->
+  <data name="Nav_Dashboard" xml:space="preserve"><value>Tablero</value></data>
+  <data name="Nav_BookEditor" xml:space="preserve"><value>Editor de libros</value></data>
+  <data name="Nav_Users" xml:space="preserve"><value>Usuarios</value></data>
+  <data name="Nav_Groups" xml:space="preserve"><value>Grupos</value></data>
+  <data name="Nav_Settings" xml:space="preserve"><value>Configuracion</value></data>
+  <data name="Nav_Logout" xml:space="preserve"><value>Cerrar sesion</value></data>
+  <data name="Nav_Admin" xml:space="preserve"><value>Administracion</value></data>
+
+  <!-- ===== Book Project list ===== -->
+  <data name="BookProject_Title" xml:space="preserve"><value>Proyectos del editor</value></data>
+  <data name="Btn_CreateNewProject" xml:space="preserve"><value>Crear nuevo proyecto</value></data>
+  <data name="BookProject_NoCover" xml:space="preserve"><value>Sin portada</value></data>
+  <data name="BookProject_NoProjects" xml:space="preserve"><value>Aun no hay proyectos de libro.</value></data>
+  <data name="BookProject_CreateFirst" xml:space="preserve"><value>Crea tu primer proyecto para empezar.</value></data>
+  <data name="Btn_OpenEditor" xml:space="preserve"><value>Abrir el editor</value></data>
+  <data name="Btn_ManageFiles" xml:space="preserve"><value>Gestionar archivos</value></data>
+  <data name="Btn_Edit" xml:space="preserve"><value>Editar</value></data>
+  <data name="Btn_Export" xml:space="preserve"><value>Exportar</value></data>
+  <data name="Btn_ManageDrafts" xml:space="preserve"><value>Gestionar borradores</value></data>
+  <data name="Btn_CompareDrafts" xml:space="preserve"><value>Comparar borradores</value></data>
+  <data name="Btn_Delete" xml:space="preserve"><value>Eliminar</value></data>
+  <data name="Badge_Editor" xml:space="preserve"><value>Editor</value></data>
+  <data name="Badge_ReadOnly" xml:space="preserve"><value>Solo lectura</value></data>
+  <data name="Label_LastModified" xml:space="preserve"><value>Ultima modificacion:</value></data>
+  <data name="Label_Chapter" xml:space="preserve"><value>capitulo</value></data>
+  <data name="Label_Chapters" xml:space="preserve"><value>capitulos</value></data>
+  <data name="Label_Paragraph" xml:space="preserve"><value>parrafo</value></data>
+  <data name="Label_Paragraphs" xml:space="preserve"><value>parrafos</value></data>
+  <data name="Confirm_DeleteProject" xml:space="preserve"><value>Eliminar este proyecto y todos sus datos? Esta accion no se puede deshacer.</value></data>
+
+  <!-- ===== Editor ===== -->
+  <data name="Editor_PanelParagraph" xml:space="preserve"><value>Parrafo</value></data>
+  <data name="Editor_PanelMeta" xml:space="preserve"><value>META</value></data>
+  <data name="Editor_PanelNotes" xml:space="preserve"><value>Notas de edicion</value></data>
+  <data name="Editor_PlaceholderParagraph" xml:space="preserve"><value>Texto del parrafo...</value></data>
+  <data name="Editor_PlaceholderMeta" xml:space="preserve"><value>Explicacion META...</value></data>
+  <data name="Editor_PlaceholderNotes" xml:space="preserve"><value>Sus notas de edicion...</value></data>
+  <data name="Editor_SearchPlaceholder" xml:space="preserve"><value>Buscar en el texto del parrafo...</value></data>
+  <data name="Btn_Search" xml:space="preserve"><value>Buscar</value></data>
+  <data name="Label_WholeWord" xml:space="preserve"><value>Palabra completa</value></data>
+  <data name="Editor_NavFirst" xml:space="preserve"><value>Primero</value></data>
+  <data name="Editor_NavPrev" xml:space="preserve"><value>Anterior</value></data>
+  <data name="Editor_NavNext" xml:space="preserve"><value>Siguiente</value></data>
+  <data name="Editor_NavLast" xml:space="preserve"><value>Ultimo</value></data>
+  <data name="Label_Position" xml:space="preserve"><value>Posicion:</value></data>
+  <data name="Label_Of" xml:space="preserve"><value>de</value></data>
+  <data name="Label_ChapterNav" xml:space="preserve"><value>Capitulo:</value></data>
+  <data name="Label_GoTo" xml:space="preserve"><value>Ir a:</value></data>
+  <data name="Btn_Go" xml:space="preserve"><value>Ir</value></data>
+  <data name="Btn_Save" xml:space="preserve"><value>Guardar</value></data>
+  <data name="Btn_ClearBookmark" xml:space="preserve"><value>Borrar marcador</value></data>
+  <data name="Btn_SetBookmark" xml:space="preserve"><value>Fijar marcador</value></data>
+  <data name="Btn_GoToBookmark" xml:space="preserve"><value>Ir al marcador</value></data>
+  <data name="Editor_NoBookmark" xml:space="preserve"><value>Sin marcador</value></data>
+  <data name="Btn_InsBefore" xml:space="preserve"><value>Insertar antes</value></data>
+  <data name="Btn_InsAfter" xml:space="preserve"><value>Insertar despues</value></data>
+  <data name="Editor_TypeParagraph" xml:space="preserve"><value>Parrafo</value></data>
+  <data name="Editor_TypeEpigraph" xml:space="preserve"><value>Epigrafe</value></data>
+  <data name="Btn_Files" xml:space="preserve"><value>Archivos</value></data>
+  <data name="Confirm_DeleteParagraph" xml:space="preserve"><value>Eliminar este parrafo? Esta accion no se puede deshacer.</value></data>
+
+  <!-- ===== File Upload ===== -->
+  <data name="FileUpload_SectionUpload" xml:space="preserve"><value>Subir archivos</value></data>
+  <data name="FileUpload_BookmlPackage" xml:space="preserve"><value>Paquete BookML</value></data>
+  <data name="FileUpload_LegacyFiles" xml:space="preserve"><value>Archivos de texto subidos</value></data>
+  <data name="FileUpload_NoLegacyFiles" xml:space="preserve"><value>No hay archivos de texto subidos.</value></data>
+  <data name="FileUpload_ColFilename" xml:space="preserve"><value>Nombre de archivo</value></data>
+  <data name="FileUpload_ColType" xml:space="preserve"><value>Tipo</value></data>
+  <data name="FileUpload_ColSize" xml:space="preserve"><value>Tamano</value></data>
+  <data name="FileUpload_ColUploaded" xml:space="preserve"><value>Subido</value></data>
+  <data name="FileUpload_ColActions" xml:space="preserve"><value>Acciones</value></data>
+  <data name="FileUpload_ImportLegacyTitle" xml:space="preserve"><value>Importar archivos de texto heredados</value></data>
+  <data name="Btn_ImportAllFiles" xml:space="preserve"><value>Importar todos los archivos</value></data>
+  <data name="Btn_ImportLog" xml:space="preserve"><value>Registro de importacion</value></data>
+  <data name="Btn_BackToProjects" xml:space="preserve"><value>Volver a proyectos</value></data>
+  <data name="Btn_UploadFiles" xml:space="preserve"><value>Subir archivos</value></data>
+  <data name="Confirm_DeleteFile" xml:space="preserve"><value>Eliminar este archivo?</value></data>
+  <data name="Confirm_ImportFiles" xml:space="preserve"><value>Importar los archivos subidos? Los capitulos existentes se fusionaran (se anadiran parrafos nuevos, se actualizaran los que coincidan y se eliminaran los que ya no esten).</value></data>
+
+</root>

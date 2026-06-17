@@ -1,0 +1,15 @@
+@using System.Threading
+@{
+    var cur = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
+}
+<div class="lang-selector">
+    @using (Html.BeginForm("Set", "Language", FormMethod.Post, new { @class = "lang-selector__form" }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="returnUrl" value="@Request.RawUrl" />
+        <button type="submit" name="lang" value="en"
+                class="lang-selector__btn@(cur == "en" ? " lang-selector__btn--active" : "")">EN</button>
+        <button type="submit" name="lang" value="es"
+                class="lang-selector__btn@(cur == "es" ? " lang-selector__btn--active" : "")">ES</button>
+    }
+</div>

@@ -1,6 +1,8 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -46,6 +48,18 @@ namespace HexWriter.Web
             {
                 // Users table may not exist yet — run Update-Database first
             }
+        }
+
+        protected void Application_AcquireRequestState(object sender, EventArgs e)
+        {
+            var supported = new[] { "en", "es" };
+            string lang = "en";
+            var cookie = Request.Cookies["hw_lang"];
+            if (cookie != null && Array.Exists(supported, l => l == cookie.Value))
+                lang = cookie.Value;
+            var culture = new CultureInfo(lang);
+            Thread.CurrentThread.CurrentCulture   = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
         }
 
         protected void Application_Error(object sender, EventArgs e)

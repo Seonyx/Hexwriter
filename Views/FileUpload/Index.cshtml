@@ -1,4 +1,5 @@
 @model HexWriter.Web.Models.ViewModels.BookEditor.FileUploadViewModel
+@using System.Web
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.Title = "Manage Files - " + Model.ProjectName;
@@ -11,8 +12,8 @@
 <div class="page-header">
     <h1>Manage Files: @Model.ProjectName</h1>
     <div class="page-header-actions">
-        <a href="@Url.Action("Index", "ImportLog", new { projectId = Model.BookProjectID })" class="btn btn-secondary">Import Log</a>
-        <a href="@Url.Action("Index", "BookProject")" class="btn btn-secondary">Back to Projects</a>
+        <a href="@Url.Action("Index", "ImportLog", new { projectId = Model.BookProjectID })" class="btn btn-secondary">@Strings.Btn_ImportLog</a>
+        <a href="@Url.Action("Index", "BookProject")" class="btn btn-secondary">@Strings.Btn_BackToProjects</a>
     </div>
 </div>
 
@@ -27,7 +28,7 @@
 }
 
 <div class="file-upload-section">
-    <h2>Upload Files</h2>
+    <h2>@Strings.FileUpload_SectionUpload</h2>
     <p class="form-help">
         Upload a <strong>BookML .zip package</strong> (contains book.xml and chapter XML files),
         or legacy chapter files (.md/.txt).
@@ -43,7 +44,7 @@
         </div>
 
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Upload Files</button>
+            <button type="submit" class="btn btn-primary">@Strings.Btn_UploadFiles</button>
         </div>
     }
 </div>
@@ -53,7 +54,7 @@
 @if (Model.BookmlPackagePresent)
 {
     <div class="file-list-section">
-        <h2>BookML Package</h2>
+        <h2>@Strings.FileUpload_BookmlPackage</h2>
         <p class="form-help alert alert-success">
             A BookML XML package is ready to import (<code>book.xml</code> found).
         </p>
@@ -224,22 +225,22 @@
 }
 
 <div class="file-list-section">
-    <h2>Uploaded Text Files (@Model.ExistingFiles.Count)</h2>
+    <h2>@Strings.FileUpload_LegacyFiles (@Model.ExistingFiles.Count)</h2>
 
     @if (Model.ExistingFiles.Count == 0)
     {
-        <p class="empty-state">No legacy text files uploaded.</p>
+        <p class="empty-state">@Strings.FileUpload_NoLegacyFiles</p>
     }
     else
     {
         <table class="admin-table">
             <thead>
                 <tr>
-                    <th>Filename</th>
-                    <th>Type</th>
-                    <th>Size</th>
-                    <th>Uploaded</th>
-                    <th>Actions</th>
+                    <th>@Strings.FileUpload_ColFilename</th>
+                    <th>@Strings.FileUpload_ColType</th>
+                    <th>@Strings.FileUpload_ColSize</th>
+                    <th>@Strings.FileUpload_ColUploaded</th>
+                    <th>@Strings.FileUpload_ColActions</th>
                 </tr>
             </thead>
             <tbody>
@@ -255,9 +256,12 @@
                         <td>@FormatFileSize(file.FileSize)</td>
                         <td>@file.UploadDate.ToString("MMM d, yyyy h:mm tt")</td>
                         <td>
-                            @{Html.BeginForm("DeleteFile", "FileUpload", new { projectId = Model.BookProjectID, fileName = file.FileName }, FormMethod.Post, new { style = "display:inline", onsubmit = "return confirm('Delete this file?');" });}
+                            @{
+                                var confirmDelFile = HttpUtility.JavaScriptStringEncode(Strings.Confirm_DeleteFile);
+                                Html.BeginForm("DeleteFile", "FileUpload", new { projectId = Model.BookProjectID, fileName = file.FileName }, FormMethod.Post, new { style = "display:inline", onsubmit = "return confirm('" + confirmDelFile + "');" });
+                            }
                                 @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                <button type="submit" class="btn btn-danger btn-sm">@Strings.Btn_Delete</button>
                             @{Html.EndForm();}
                         </td>
                     </tr>
@@ -268,18 +272,19 @@
         <hr />
 
         <div class="file-list-section">
-            <h2>Import Legacy Text Files</h2>
+            <h2>@Strings.FileUpload_ImportLegacyTitle</h2>
             <p class="form-help">
                 This will parse all uploaded chapter files and merge them into the database.
                 For each chapter: new paragraphs are added, existing paragraphs (matched by ID) are updated,
                 and paragraphs no longer in the file are removed. Other chapters are not affected.
             </p>
 
-            @using (Html.BeginForm("ImportFiles", "FileUpload", new { projectId = Model.BookProjectID }, FormMethod.Post, new { @class = "admin-form", onsubmit = "return confirm('Import uploaded files? Existing chapters will be merged (new paragraphs added, matching ones updated, removed ones deleted).');" }))
+            @{var confirmImport = HttpUtility.JavaScriptStringEncode(Strings.Confirm_ImportFiles);}
+            @using (Html.BeginForm("ImportFiles", "FileUpload", new { projectId = Model.BookProjectID }, FormMethod.Post, new { @class = "admin-form", onsubmit = "return confirm('" + confirmImport + "');" }))
             {
                 @Html.AntiForgeryToken()
                 <div class="form-actions">
-                    <button type="submit" class="btn btn-primary">Import All Files to Database</button>
+                    <button type="submit" class="btn btn-primary">@Strings.Btn_ImportAllFiles</button>
                 </div>
             }
         </div>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/2001/XMLSchema" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- ===== Navigation ===== -->
+  <data name="Nav_Dashboard" xml:space="preserve"><value>Dashboard</value></data>
+  <data name="Nav_BookEditor" xml:space="preserve"><value>Book Editor</value></data>
+  <data name="Nav_Users" xml:space="preserve"><value>Users</value></data>
+  <data name="Nav_Groups" xml:space="preserve"><value>Groups</value></data>
+  <data name="Nav_Settings" xml:space="preserve"><value>Settings</value></data>
+  <data name="Nav_Logout" xml:space="preserve"><value>Logout</value></data>
+  <data name="Nav_Admin" xml:space="preserve"><value>Admin</value></data>
+
+  <!-- ===== Book Project list ===== -->
+  <data name="BookProject_Title" xml:space="preserve"><value>Book Editor Projects</value></data>
+  <data name="Btn_CreateNewProject" xml:space="preserve"><value>Create New Project</value></data>
+  <data name="BookProject_NoCover" xml:space="preserve"><value>No Cover</value></data>
+  <data name="BookProject_NoProjects" xml:space="preserve"><value>No book projects yet.</value></data>
+  <data name="BookProject_CreateFirst" xml:space="preserve"><value>Create your first project to get started.</value></data>
+  <data name="Btn_OpenEditor" xml:space="preserve"><value>Open Editor</value></data>
+  <data name="Btn_ManageFiles" xml:space="preserve"><value>Manage Files</value></data>
+  <data name="Btn_Edit" xml:space="preserve"><value>Edit</value></data>
+  <data name="Btn_Export" xml:space="preserve"><value>Export</value></data>
+  <data name="Btn_ManageDrafts" xml:space="preserve"><value>Manage Drafts</value></data>
+  <data name="Btn_CompareDrafts" xml:space="preserve"><value>Compare Drafts</value></data>
+  <data name="Btn_Delete" xml:space="preserve"><value>Delete</value></data>
+  <data name="Badge_Editor" xml:space="preserve"><value>Editor</value></data>
+  <data name="Badge_ReadOnly" xml:space="preserve"><value>Read Only</value></data>
+  <data name="Label_LastModified" xml:space="preserve"><value>Last modified:</value></data>
+  <data name="Label_Chapter" xml:space="preserve"><value>chapter</value></data>
+  <data name="Label_Chapters" xml:space="preserve"><value>chapters</value></data>
+  <data name="Label_Paragraph" xml:space="preserve"><value>paragraph</value></data>
+  <data name="Label_Paragraphs" xml:space="preserve"><value>paragraphs</value></data>
+  <data name="Confirm_DeleteProject" xml:space="preserve"><value>Delete this project and all its data? This cannot be undone.</value></data>
+
+  <!-- ===== Editor ===== -->
+  <data name="Editor_PanelParagraph" xml:space="preserve"><value>Paragraph</value></data>
+  <data name="Editor_PanelMeta" xml:space="preserve"><value>META</value></data>
+  <data name="Editor_PanelNotes" xml:space="preserve"><value>Edit Notes</value></data>
+  <data name="Editor_PlaceholderParagraph" xml:space="preserve"><value>Paragraph text...</value></data>
+  <data name="Editor_PlaceholderMeta" xml:space="preserve"><value>META explanation...</value></data>
+  <data name="Editor_PlaceholderNotes" xml:space="preserve"><value>Your editing notes...</value></data>
+  <data name="Editor_SearchPlaceholder" xml:space="preserve"><value>Search paragraph text...</value></data>
+  <data name="Btn_Search" xml:space="preserve"><value>Search</value></data>
+  <data name="Label_WholeWord" xml:space="preserve"><value>Whole word</value></data>
+  <data name="Editor_NavFirst" xml:space="preserve"><value>First</value></data>
+  <data name="Editor_NavPrev" xml:space="preserve"><value>Prev</value></data>
+  <data name="Editor_NavNext" xml:space="preserve"><value>Next</value></data>
+  <data name="Editor_NavLast" xml:space="preserve"><value>Last</value></data>
+  <data name="Label_Position" xml:space="preserve"><value>Position:</value></data>
+  <data name="Label_Of" xml:space="preserve"><value>of</value></data>
+  <data name="Label_ChapterNav" xml:space="preserve"><value>Chapter:</value></data>
+  <data name="Label_GoTo" xml:space="preserve"><value>Go to:</value></data>
+  <data name="Btn_Go" xml:space="preserve"><value>Go</value></data>
+  <data name="Btn_Save" xml:space="preserve"><value>Save</value></data>
+  <data name="Btn_ClearBookmark" xml:space="preserve"><value>Clear Bookmark</value></data>
+  <data name="Btn_SetBookmark" xml:space="preserve"><value>Set Bookmark</value></data>
+  <data name="Btn_GoToBookmark" xml:space="preserve"><value>Go to Bookmark</value></data>
+  <data name="Editor_NoBookmark" xml:space="preserve"><value>No Bookmark</value></data>
+  <data name="Btn_InsBefore" xml:space="preserve"><value>Ins Before</value></data>
+  <data name="Btn_InsAfter" xml:space="preserve"><value>Ins After</value></data>
+  <data name="Editor_TypeParagraph" xml:space="preserve"><value>Paragraph</value></data>
+  <data name="Editor_TypeEpigraph" xml:space="preserve"><value>Epigraph</value></data>
+  <data name="Btn_Files" xml:space="preserve"><value>Files</value></data>
+  <data name="Confirm_DeleteParagraph" xml:space="preserve"><value>Delete this paragraph? This cannot be undone.</value></data>
+
+  <!-- ===== File Upload ===== -->
+  <data name="FileUpload_SectionUpload" xml:space="preserve"><value>Upload Files</value></data>
+  <data name="FileUpload_BookmlPackage" xml:space="preserve"><value>BookML Package</value></data>
+  <data name="FileUpload_LegacyFiles" xml:space="preserve"><value>Uploaded Text Files</value></data>
+  <data name="FileUpload_NoLegacyFiles" xml:space="preserve"><value>No legacy text files uploaded.</value></data>
+  <data name="FileUpload_ColFilename" xml:space="preserve"><value>Filename</value></data>
+  <data name="FileUpload_ColType" xml:space="preserve"><value>Type</value></data>
+  <data name="FileUpload_ColSize" xml:space="preserve"><value>Size</value></data>
+  <data name="FileUpload_ColUploaded" xml:space="preserve"><value>Uploaded</value></data>
+  <data name="FileUpload_ColActions" xml:space="preserve"><value>Actions</value></data>
+  <data name="FileUpload_ImportLegacyTitle" xml:space="preserve"><value>Import Legacy Text Files</value></data>
+  <data name="Btn_ImportAllFiles" xml:space="preserve"><value>Import All Files to Database</value></data>
+  <data name="Btn_ImportLog" xml:space="preserve"><value>Import Log</value></data>
+  <data name="Btn_BackToProjects" xml:space="preserve"><value>Back to Projects</value></data>
+  <data name="Btn_UploadFiles" xml:space="preserve"><value>Upload Files</value></data>
+  <data name="Confirm_DeleteFile" xml:space="preserve"><value>Delete this file?</value></data>
+  <data name="Confirm_ImportFiles" xml:space="preserve"><value>Import uploaded files? Existing chapters will be merged (new paragraphs added, matching ones updated, removed ones deleted).</value></data>
+
+</root>

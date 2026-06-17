@@ -1,4 +1,5 @@
 @model HexWriter.Web.Models.ViewModels.BookEditor.ParagraphEditViewModel
+@using System.Web
 @{
     Layout = "~/Views/Shared/_BookEditorLayout.cshtml";
     ViewBag.Title = Model.ProjectName + " - Editor";
@@ -20,43 +21,43 @@
             <!-- Paragraph Panel -->
             <div class="editor-panel panel-paragraph">
                 <div class="panel-header">
-                    <h3>Paragraph</h3>
+                    <h3>@Strings.Editor_PanelParagraph</h3>
                     <span class="panel-uid">[@Model.UniqueID]</span>
                 </div>
                 <textarea name="paragraphText" id="paragraphText" class="editor-textarea"
-                          rows="10" placeholder="Paragraph text...">@Model.ParagraphText</textarea>
+                          rows="10" placeholder="@Strings.Editor_PlaceholderParagraph">@Model.ParagraphText</textarea>
             </div>
 
             <!-- META Panel -->
             <div class="editor-panel panel-meta">
                 <div class="panel-header">
-                    <h3>META</h3>
+                    <h3>@Strings.Editor_PanelMeta</h3>
                 </div>
                 <textarea name="metaText" id="metaText" class="editor-textarea"
-                          rows="6" placeholder="META explanation...">@Model.MetaText</textarea>
+                          rows="6" placeholder="@Strings.Editor_PlaceholderMeta">@Model.MetaText</textarea>
             </div>
 
             <!-- Notes Panel -->
             <div class="editor-panel panel-notes">
                 <div class="panel-header">
-                    <h3>Edit Notes</h3>
+                    <h3>@Strings.Editor_PanelNotes</h3>
                 </div>
                 <textarea name="editNoteText" id="editNoteText" class="editor-textarea"
-                          rows="4" placeholder="Your editing notes...">@Model.EditNoteText</textarea>
+                          rows="4" placeholder="@Strings.Editor_PlaceholderNotes">@Model.EditNoteText</textarea>
             </div>
         </div>
 
         <!-- Search Bar -->
         <div class="editor-search-bar" id="searchBar">
-            <input type="text" id="searchInput" class="editor-search-input" placeholder="Search paragraph text..." autocomplete="off" />
-            <button type="button" class="btn btn-sm btn-secondary" id="btnSearch">Search</button>
-            <button type="button" class="btn btn-sm btn-secondary" id="btnSearchPrev" disabled title="Previous match">&#8249; Match</button>
-            <button type="button" class="btn btn-sm btn-secondary" id="btnSearchNext" disabled title="Next match">Match &#8250;</button>
+            <input type="text" id="searchInput" class="editor-search-input" placeholder="@Strings.Editor_SearchPlaceholder" autocomplete="off" />
+            <button type="button" class="btn btn-sm btn-secondary" id="btnSearch">@Strings.Btn_Search</button>
+            <button type="button" class="btn btn-sm btn-secondary" id="btnSearchPrev" disabled title="Previous match">&#8249; @Strings.Btn_Search</button>
+            <button type="button" class="btn btn-sm btn-secondary" id="btnSearchNext" disabled title="Next match">@Strings.Btn_Search &#8250;</button>
             <span class="search-status" id="searchStatus"></span>
             <a id="btnShowList" href="#" target="_blank" style="display:none" class="btn btn-sm btn-secondary" title="Open full list of matches in a new tab">Show List</a>
             <button type="button" class="btn btn-sm btn-secondary search-clear" id="btnSearchClear" style="display:none" title="Clear search">&#x2715;</button>
             <label class="search-whole-word-label">
-                <input type="checkbox" id="chkWholeWord" checked /> Whole word
+                <input type="checkbox" id="chkWholeWord" checked /> @Strings.Label_WholeWord
             </label>
         </div>
 
@@ -65,26 +66,26 @@
             <div class="editor-nav-buttons">
                 <a href="@(Model.PrevParagraphID.HasValue ? Url.Action("Index", new { projectId = Model.BookProjectID, paragraphId = Model.FirstParagraphID }) : "#")"
                    class="btn btn-sm btn-secondary @(Model.PrevParagraphID.HasValue ? "" : "disabled")"
-                   title="First paragraph (Ctrl+Home)">First</a>
+                   title="First paragraph (Ctrl+Home)">@Strings.Editor_NavFirst</a>
 
                 <a href="@(Model.PrevParagraphID.HasValue ? Url.Action("Index", new { projectId = Model.BookProjectID, paragraphId = Model.PrevParagraphID }) : "#")"
                    class="btn btn-sm btn-secondary @(Model.PrevParagraphID.HasValue ? "" : "disabled")"
-                   id="btnPrev" title="Previous paragraph (Ctrl+Left)">Prev</a>
+                   id="btnPrev" title="Previous paragraph (Ctrl+Left)">@Strings.Editor_NavPrev</a>
 
                 <a href="@(Model.NextParagraphID.HasValue ? Url.Action("Index", new { projectId = Model.BookProjectID, paragraphId = Model.NextParagraphID }) : "#")"
                    class="btn btn-sm btn-secondary @(Model.NextParagraphID.HasValue ? "" : "disabled")"
-                   id="btnNext" title="Next paragraph (Ctrl+Right)">Next</a>
+                   id="btnNext" title="Next paragraph (Ctrl+Right)">@Strings.Editor_NavNext</a>
 
                 <a href="@(Model.NextParagraphID.HasValue ? Url.Action("Index", new { projectId = Model.BookProjectID, paragraphId = Model.LastParagraphID }) : "#")"
                    class="btn btn-sm btn-secondary @(Model.NextParagraphID.HasValue ? "" : "disabled")"
-                   title="Last paragraph (Ctrl+End)">Last</a>
+                   title="Last paragraph (Ctrl+End)">@Strings.Editor_NavLast</a>
             </div>
 
             <div class="editor-position">
-                <span class="editor-pos-label">Position:</span>
-                <strong>@Model.GlobalPosition</strong> of <strong>@Model.TotalParagraphs</strong>
+                <span class="editor-pos-label">@Strings.Label_Position</span>
+                <strong>@Model.GlobalPosition</strong> @Strings.Label_Of <strong>@Model.TotalParagraphs</strong>
                 <span class="editor-sep">|</span>
-                <span class="editor-pos-label">Chapter:</span>
+                <span class="editor-pos-label">@Strings.Label_ChapterNav</span>
                 <select id="chapterJump" class="editor-chapter-select">
                     @foreach (var ch in Model.ChapterList)
                     {
@@ -95,16 +96,16 @@
                     }
                 </select>
                 <span class="editor-sep">|</span>
-                <span class="editor-pos-label">Go to:</span>
+                <span class="editor-pos-label">@Strings.Label_GoTo</span>
                 <input type="text" id="gotoInput" class="editor-goto-input" placeholder="# or ID" title="Enter a position number or paragraph ID (e.g. CH01-P0010)" />
-                <button type="button" class="btn btn-sm btn-secondary" id="btnGoto">Go</button>
+                <button type="button" class="btn btn-sm btn-secondary" id="btnGoto">@Strings.Btn_Go</button>
             </div>
 
         </div>
 
         <!-- Save bar — permanently anchored below nav, right-aligned -->
         <div class="editor-save-bar">
-            <button type="submit" class="btn btn-sm btn-primary" id="btnSave" title="Save changes (Ctrl+S)">Save</button>
+            <button type="submit" class="btn btn-sm btn-primary" id="btnSave" title="Save changes (Ctrl+S)">@Strings.Btn_Save</button>
             <span id="saveStatus" class="save-status"></span>
         </div>
 
@@ -114,21 +115,21 @@
     <div class="editor-bookmark-bar">
         @{Html.BeginForm("ClearBookmark", "Editor", new { projectId = Model.BookProjectID, paragraphId = Model.ParagraphID }, FormMethod.Post, new { style = Model.IsBookmarked ? "display:inline" : "display:none" });}
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-sm btn-warning" title="Remove bookmark from this paragraph">Clear Bookmark</button>
+            <button type="submit" class="btn btn-sm btn-warning" title="Remove bookmark from this paragraph">@Strings.Btn_ClearBookmark</button>
         @{Html.EndForm();}
         @{Html.BeginForm("SetBookmark", "Editor", new { projectId = Model.BookProjectID, paragraphId = Model.ParagraphID }, FormMethod.Post, new { style = Model.IsBookmarked ? "display:none" : "display:inline" });}
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-sm btn-secondary" title="Set bookmark on this paragraph">Set Bookmark</button>
+            <button type="submit" class="btn btn-sm btn-secondary" title="Set bookmark on this paragraph">@Strings.Btn_SetBookmark</button>
         @{Html.EndForm();}
         @if (Model.BookmarkParagraphID.HasValue)
         {
             <a href="@Url.Action("Index", new { projectId = Model.BookProjectID, paragraphId = Model.BookmarkParagraphID.Value })"
                class="btn btn-sm btn-info @(Model.IsBookmarked ? "disabled" : "")"
-               title="Go to bookmarked paragraph">Go to Bookmark</a>
+               title="Go to bookmarked paragraph">@Strings.Btn_GoToBookmark</a>
         }
         else
         {
-            <span class="btn btn-sm btn-secondary disabled">No Bookmark</span>
+            <span class="btn btn-sm btn-secondary disabled">@Strings.Editor_NoBookmark</span>
         }
     </div>
 
@@ -138,10 +139,10 @@
             @Html.AntiForgeryToken()
             <input type="hidden" name="paraType" id="insBeforeType" value="normal" />
             <div class="insert-btn-group" style="display:inline-flex;align-items:center;gap:0">
-                <button type="submit" class="btn btn-sm btn-secondary" style="border-radius:3px 0 0 3px;border-right:none" title="Insert before current">Ins Before</button>
+                <button type="submit" class="btn btn-sm btn-secondary" style="border-radius:3px 0 0 3px;border-right:none" title="Insert before current">@Strings.Btn_InsBefore</button>
                 <select id="selInsBefore" class="insert-type-select" title="Type to insert" style="height:28px;font-size:0.8em;border-radius:0 3px 3px 0;border:1px solid #aaa;padding:0 4px">
-                    <option value="normal">Paragraph</option>
-                    <option value="epigraph">Epigraph</option>
+                    <option value="normal">@Strings.Editor_TypeParagraph</option>
+                    <option value="epigraph">@Strings.Editor_TypeEpigraph</option>
                 </select>
             </div>
         @{Html.EndForm();}
@@ -149,19 +150,22 @@
             @Html.AntiForgeryToken()
             <input type="hidden" name="paraType" id="insAfterType" value="normal" />
             <div class="insert-btn-group" style="display:inline-flex;align-items:center;gap:0">
-                <button type="submit" class="btn btn-sm btn-secondary" style="border-radius:3px 0 0 3px;border-right:none" title="Insert after current (Ctrl+I)">Ins After</button>
+                <button type="submit" class="btn btn-sm btn-secondary" style="border-radius:3px 0 0 3px;border-right:none" title="Insert after current (Ctrl+I)">@Strings.Btn_InsAfter</button>
                 <select id="selInsAfter" class="insert-type-select" title="Type to insert" style="height:28px;font-size:0.8em;border-radius:0 3px 3px 0;border:1px solid #aaa;padding:0 4px">
-                    <option value="normal">Paragraph</option>
-                    <option value="epigraph">Epigraph</option>
+                    <option value="normal">@Strings.Editor_TypeParagraph</option>
+                    <option value="epigraph">@Strings.Editor_TypeEpigraph</option>
                 </select>
             </div>
         @{Html.EndForm();}
-        @{Html.BeginForm("DeleteParagraph", "Editor", new { projectId = Model.BookProjectID, paragraphId = Model.ParagraphID }, FormMethod.Post, new { style = "display:inline", id = "deleteForm", onsubmit = "return confirm('Delete this paragraph? This cannot be undone.');" });}
+        @{
+            var confirmDelPara = HttpUtility.JavaScriptStringEncode(Strings.Confirm_DeleteParagraph);
+            Html.BeginForm("DeleteParagraph", "Editor", new { projectId = Model.BookProjectID, paragraphId = Model.ParagraphID }, FormMethod.Post, new { style = "display:inline", id = "deleteForm", onsubmit = "return confirm('" + confirmDelPara + "');" });
+        }
             @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-sm btn-danger" title="Delete paragraph (Ctrl+D)">Delete</button>
+            <button type="submit" class="btn btn-sm btn-danger" title="Delete paragraph (Ctrl+D)">@Strings.Btn_Delete</button>
         @{Html.EndForm();}
-        <a href="@Url.Action("Index", "FileUpload", new { projectId = Model.BookProjectID })" class="btn btn-sm btn-secondary">Files</a>
-        <a href="@Url.Action("Index", "Export", new { projectId = Model.BookProjectID })" class="btn btn-sm btn-secondary">Export</a>
+        <a href="@Url.Action("Index", "FileUpload", new { projectId = Model.BookProjectID })" class="btn btn-sm btn-secondary">@Strings.Btn_Files</a>
+        <a href="@Url.Action("Index", "Export", new { projectId = Model.BookProjectID })" class="btn btn-sm btn-secondary">@Strings.Btn_Export</a>
     </div>
 </div>
 

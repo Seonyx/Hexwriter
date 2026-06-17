@@ -1,9 +1,10 @@
 @using HexWriter.Web.Helpers
+@using System.Globalization
 @{
     var layoutUser = AuthHelper.GetCurrentUser(new HttpContextWrapper(HttpContext.Current));
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +14,7 @@
     <link rel="apple-touch-icon" href="~/apple-touch-icon.png" />
     <link rel="manifest" href="~/site.webmanifest" />
     <meta name="theme-color" content="#232046" />
-    <meta property="og:title" content="Hexwriter — the long-form book editor" />
+    <meta property="og:title" content="Hexwriter - the long-form book editor" />
     <meta property="og:image" content="~/Content/images/social/og-image-1200x630.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -28,15 +29,16 @@
                 <img src="~/Content/images/hexwriter-lockup-reversed.svg" alt="Hexwriter" />
             </a>
             <nav class="admin-nav">
-                <a href="/admin">Dashboard</a>
-                <a href="/admin/bookeditor/projects">Book Editor</a>
+                <a href="/admin">@Strings.Nav_Dashboard</a>
+                <a href="/admin/bookeditor/projects">@Strings.Nav_BookEditor</a>
                 @if (layoutUser != null && layoutUser.IsAdmin)
                 {
-                    <a href="/admin/users">Users</a>
-                    <a href="/admin/groups">Groups</a>
-                    <a href="/admin/settings">Settings</a>
+                    <a href="/admin/users">@Strings.Nav_Users</a>
+                    <a href="/admin/groups">@Strings.Nav_Groups</a>
+                    <a href="/admin/settings">@Strings.Nav_Settings</a>
                 }
-                <a href="/account/logout" class="btn-logout">Logout</a>
+                @Html.Partial("_LanguageSelector")
+                <a href="/account/logout" class="btn-logout">@Strings.Nav_Logout</a>
             </nav>
         </div>
     </header>
