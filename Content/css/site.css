@@ -599,6 +599,11 @@ code {
     font-size: 0.8125rem;
 }
 
+.btn-lg {
+    padding: 14px 32px;
+    font-size: 1.0625rem;
+}
+
 .btn-block {
     display: block;
     width: 100%;

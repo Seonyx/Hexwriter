@@ -1,27 +1,30 @@
 @{
-    var db = new HexWriter.Web.Models.HexWriterContext();
-    var divisions = db.Divisions.Where(d => d.IsActive).OrderBy(d => d.SortOrder).ToList();
-    db.Dispose();
+    var pageTitle = (ViewBag.Title != null) ? (string)ViewBag.Title : "Hexwriter";
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewBag.Title - HexWriter</title>
+    <title>@pageTitle</title>
     @if (ViewBag.MetaDescription != null)
     {
         <meta name="description" content="@ViewBag.MetaDescription" />
     }
-    @if (ViewBag.MetaKeywords != null)
+    <meta property="og:title" content="@pageTitle" />
+    @if (ViewBag.MetaDescription != null)
     {
-        <meta name="keywords" content="@ViewBag.MetaKeywords" />
+        <meta property="og:description" content="@ViewBag.MetaDescription" />
     }
-    <link rel="apple-touch-icon" sizes="180x180" href="~/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="~/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="~/favicon-16x16.png" />
+    <meta property="og:image" content="/Content/images/social/og-image-1200x630.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="~/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="~/favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" href="~/apple-touch-icon.png" />
     <link rel="manifest" href="~/site.webmanifest" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <meta name="theme-color" content="#232046" />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="~/Content/css/site.css" rel="stylesheet" />
     @RenderSection("Styles", required: false)
 </head>
@@ -30,84 +33,22 @@
         <nav class="navbar">
             <div class="container">
                 <a href="/" class="navbar-brand">
-                    <svg class="brand-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="48" height="48">
-                        <path d="M 50 50 L 0 0 L 50 0 Z" fill="#7C3AED" />
-                        <path d="M 50 50 L 100 0 L 100 50 Z" fill="#10B981" />
-                        <path d="M 50 50 L 100 100 L 50 100 Z" fill="#7C3AED" />
-                        <path d="M 50 50 L 0 100 L 0 50 Z" fill="#10B981" />
-                    </svg>
-                    <span class="brand-text">
-                        <span class="brand-name">SEONYX</span>
-                        <span class="brand-tagline">Holdings</span>
-                    </span>
+                    <img src="~/Content/images/hexwriter-lockup.svg" alt="Hexwriter" height="36" />
                 </a>
-
-                <button class="navbar-toggle" aria-label="Toggle navigation">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-
-                <ul class="nav-menu">
-                    <li><a href="/about">About</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">Divisions</a>
-                        <ul class="dropdown-menu">
-                            @foreach (var div in divisions)
-                            {
-                                <li><a href="/@div.Slug">@div.Name</a></li>
-                            }
-                        </ul>
-                    </li>
-                    <li><a href="/contact">Contact</a></li>
-                </ul>
+                <a href="/account/login" class="btn btn-primary btn-sm">Sign In</a>
             </div>
         </nav>
     </header>
 
-    <main class="site-content">
+    <main>
         @RenderBody()
     </main>
 
-    <footer class="site-footer">
+    <footer class="hw-footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="32" height="32">
-                        <path d="M 50 50 L 0 0 L 50 0 Z" fill="#A78BFA" />
-                        <path d="M 50 50 L 100 0 L 100 50 Z" fill="#34D399" />
-                        <path d="M 50 50 L 100 100 L 50 100 Z" fill="#A78BFA" />
-                        <path d="M 50 50 L 0 100 L 0 50 Z" fill="#34D399" />
-                    </svg>
-                    <p>&copy; @DateTime.Now.Year HexWriter. All rights reserved.</p>
-                </div>
-                <div class="footer-links">
-                    <h4>Company</h4>
-                    <ul>
-                        <li><a href="/about">About</a></li>
-                        <li><a href="/contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Divisions</h4>
-                    <ul>
-                        @foreach (var div in divisions)
-                        {
-                            <li><a href="/@div.Slug">@div.Name</a></li>
-                        }
-                    </ul>
-                </div>
-                <div class="footer-links">
-                    <h4>Legal</h4>
-                    <ul>
-                        <li><a href="/privacy-policy">Privacy Policy</a></li>
-                        <li><a href="/terms-and-conditions">Terms &amp; Conditions</a></li>
-                        <li><a href="/cookies">Cookie Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <a href="/admin" class="admin-link">Admin</a>
+            <div class="hw-footer__inner">
+                <p>&copy; @DateTime.Now.Year Hexwriter. All rights reserved.</p>
+                <a href="/account/login">Sign In</a>
             </div>
         </div>
     </footer>

@@ -1,0 +1,161 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <style>
+        /* ---- Hero ---- */
+        .hw-hero {
+            background-color: var(--midnight-ink);
+            background-image: url('/Content/images/masthead/masthead-bg-plain-1920x600.png');
+            background-size: cover;
+            background-position: center top;
+            padding: 100px 0 120px;
+            text-align: center;
+        }
+        .hw-hero__lockup {
+            display: block;
+            margin: 0 auto 36px;
+            max-width: 380px;
+            width: 90%;
+        }
+        .hw-hero h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.25rem;
+            color: var(--violet-100);
+            margin: 0 auto 16px;
+            max-width: 640px;
+        }
+        .hw-hero__sub {
+            font-size: 1.125rem;
+            color: var(--violet-100);
+            opacity: 0.75;
+            margin: 0 auto 48px;
+            max-width: 520px;
+        }
+
+        /* ---- Features ---- */
+        .hw-features {
+            padding: 80px 0 96px;
+            background: var(--parchment);
+        }
+        .hw-features > .container > h2 {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+        .hw-features__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+        .hw-feature {
+            padding: 32px 24px;
+            background: #fff;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        .hw-feature__label {
+            display: inline-block;
+            background: var(--violet-100);
+            color: var(--deep-violet);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-bottom: 16px;
+        }
+        .hw-feature h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+        .hw-feature p {
+            color: var(--ink-muted);
+            font-size: 0.9375rem;
+            margin: 0;
+        }
+
+        /* ---- Sign-in strip ---- */
+        .hw-cta {
+            background: var(--midnight-ink);
+            padding: 64px 0;
+            text-align: center;
+        }
+        .hw-cta h2 {
+            color: var(--violet-100);
+            margin-bottom: 24px;
+        }
+
+        /* ---- Footer ---- */
+        .hw-footer {
+            background: var(--deep-violet);
+            padding: 24px 0;
+        }
+        .hw-footer__inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .hw-footer p {
+            color: var(--violet-100);
+            font-size: 0.875rem;
+            margin: 0;
+        }
+        .hw-footer a {
+            color: var(--violet-100);
+            font-size: 0.875rem;
+        }
+        .hw-footer a:hover {
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .hw-hero { padding: 72px 0 80px; }
+            .hw-hero h1 { font-size: 1.75rem; }
+            .hw-features__grid { grid-template-columns: 1fr; }
+            .hw-footer__inner { flex-direction: column; gap: 8px; text-align: center; }
+        }
+    </style>
+}
+
+<section class="hw-hero">
+    <div class="container">
+        <img src="~/Content/images/hexwriter-lockup-reversed.svg"
+             alt="Hexwriter"
+             class="hw-hero__lockup" />
+        <h1>Long-form book editing for collaborative authors</h1>
+        <p class="hw-hero__sub">Import your manuscript, edit chapter by chapter, compare drafts, and export finished work - all in one place.</p>
+        <a href="/account/login" class="btn btn-primary">Sign In to Hexwriter</a>
+    </div>
+</section>
+
+<section class="hw-features">
+    <div class="container">
+        <h2>Built for the way authors actually work</h2>
+        <div class="hw-features__grid">
+            <div class="hw-feature">
+                <span class="hw-feature__label">Import</span>
+                <h3>Bring in any manuscript</h3>
+                <p>Import Word documents and plain text files. HexWriter identifies chapter and paragraph structure automatically so you can get to work straight away.</p>
+            </div>
+            <div class="hw-feature">
+                <span class="hw-feature__label">Edit</span>
+                <h3>Work at paragraph level</h3>
+                <p>Every paragraph has a permanent identity across all drafts. Reorder, revise, or rewrite - the full history is preserved, nothing is ever lost.</p>
+            </div>
+            <div class="hw-feature">
+                <span class="hw-feature__label">Collaborate</span>
+                <h3>Multiple authors and roles</h3>
+                <p>Grant editors or reviewers read or edit access per project. Group permissions make managing a team of contributors straightforward.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="hw-cta">
+    <div class="container">
+        <h2>Ready to start editing?</h2>
+        <a href="/account/login" class="btn btn-primary btn-lg">Sign In</a>
+    </div>
+</section>

@@ -9,11 +9,11 @@ namespace HexWriter.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            // Root URL — redirect to login
+            // Root URL - public homepage
             routes.MapRoute(
                 name: "Root",
                 url: "",
-                defaults: new { controller = "Account", action = "Login" }
+                defaults: new { controller = "Home", action = "Index" }
             );
 
             // Auth routes
