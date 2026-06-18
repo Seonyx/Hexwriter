@@ -1,10 +1,11 @@
 @model HexWriter.Web.Models.ViewModels.Account.LoginViewModel
+@using System.Globalization
 @{
     Layout = null;
     ViewBag.Title = "Sign In";
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -23,6 +24,7 @@
             <div class="login-header">
                 <img src="~/Content/images/hexwriter-mark.svg" alt="Hexwriter" width="64" height="64" />
                 <h1>HexWriter</h1>
+                @Html.Partial("_LanguageSelector")
             </div>
 
             @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "login-form" }))

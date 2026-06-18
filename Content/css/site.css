@@ -599,6 +599,22 @@ code {
     font-size: 0.8125rem;
 }
 
+/* Language selector on light backgrounds (public nav) */
+.lang-selector--light .lang-selector__btn {
+    border-color: var(--ink-muted);
+    color: var(--midnight-ink);
+}
+
+.lang-selector--light .lang-selector__btn:hover {
+    border-color: var(--midnight-ink);
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.lang-selector--light .lang-selector__btn--active {
+    background: rgba(0, 0, 0, 0.08);
+    border-color: var(--midnight-ink);
+}
+
 .btn-lg {
     padding: 14px 32px;
     font-size: 1.0625rem;
