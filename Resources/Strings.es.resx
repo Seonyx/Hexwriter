@@ -64,15 +64,15 @@
   <data name="Nav_BookEditor" xml:space="preserve"><value>Editor de libros</value></data>
   <data name="Nav_Users" xml:space="preserve"><value>Usuarios</value></data>
   <data name="Nav_Groups" xml:space="preserve"><value>Grupos</value></data>
-  <data name="Nav_Settings" xml:space="preserve"><value>Configuracion</value></data>
-  <data name="Nav_Logout" xml:space="preserve"><value>Cerrar sesion</value></data>
-  <data name="Nav_Admin" xml:space="preserve"><value>Administracion</value></data>
+  <data name="Nav_Settings" xml:space="preserve"><value>Configuración</value></data>
+  <data name="Nav_Logout" xml:space="preserve"><value>Cerrar sesión</value></data>
+  <data name="Nav_Admin" xml:space="preserve"><value>Administración</value></data>
 
   <!-- ===== Book Project list ===== -->
   <data name="BookProject_Title" xml:space="preserve"><value>Proyectos del editor</value></data>
   <data name="Btn_CreateNewProject" xml:space="preserve"><value>Crear nuevo proyecto</value></data>
   <data name="BookProject_NoCover" xml:space="preserve"><value>Sin portada</value></data>
-  <data name="BookProject_NoProjects" xml:space="preserve"><value>Aun no hay proyectos de libro.</value></data>
+  <data name="BookProject_NoProjects" xml:space="preserve"><value>Aún no hay proyectos de libro.</value></data>
   <data name="BookProject_CreateFirst" xml:space="preserve"><value>Crea tu primer proyecto para empezar.</value></data>
   <data name="Btn_OpenEditor" xml:space="preserve"><value>Abrir el editor</value></data>
   <data name="Btn_ManageFiles" xml:space="preserve"><value>Gestionar archivos</value></data>
@@ -83,30 +83,30 @@
   <data name="Btn_Delete" xml:space="preserve"><value>Eliminar</value></data>
   <data name="Badge_Editor" xml:space="preserve"><value>Editor</value></data>
   <data name="Badge_ReadOnly" xml:space="preserve"><value>Solo lectura</value></data>
-  <data name="Label_LastModified" xml:space="preserve"><value>Ultima modificacion:</value></data>
-  <data name="Label_Chapter" xml:space="preserve"><value>capitulo</value></data>
-  <data name="Label_Chapters" xml:space="preserve"><value>capitulos</value></data>
-  <data name="Label_Paragraph" xml:space="preserve"><value>parrafo</value></data>
-  <data name="Label_Paragraphs" xml:space="preserve"><value>parrafos</value></data>
-  <data name="Confirm_DeleteProject" xml:space="preserve"><value>Eliminar este proyecto y todos sus datos? Esta accion no se puede deshacer.</value></data>
+  <data name="Label_LastModified" xml:space="preserve"><value>Última modificación:</value></data>
+  <data name="Label_Chapter" xml:space="preserve"><value>capítulo</value></data>
+  <data name="Label_Chapters" xml:space="preserve"><value>capítulos</value></data>
+  <data name="Label_Paragraph" xml:space="preserve"><value>párrafo</value></data>
+  <data name="Label_Paragraphs" xml:space="preserve"><value>párrafos</value></data>
+  <data name="Confirm_DeleteProject" xml:space="preserve"><value>¿Eliminar este proyecto y todos sus datos? Esta acción no se puede deshacer.</value></data>
 
   <!-- ===== Editor ===== -->
-  <data name="Editor_PanelParagraph" xml:space="preserve"><value>Parrafo</value></data>
+  <data name="Editor_PanelParagraph" xml:space="preserve"><value>Párrafo</value></data>
   <data name="Editor_PanelMeta" xml:space="preserve"><value>META</value></data>
-  <data name="Editor_PanelNotes" xml:space="preserve"><value>Notas de edicion</value></data>
-  <data name="Editor_PlaceholderParagraph" xml:space="preserve"><value>Texto del parrafo...</value></data>
-  <data name="Editor_PlaceholderMeta" xml:space="preserve"><value>Explicacion META...</value></data>
-  <data name="Editor_PlaceholderNotes" xml:space="preserve"><value>Sus notas de edicion...</value></data>
-  <data name="Editor_SearchPlaceholder" xml:space="preserve"><value>Buscar en el texto del parrafo...</value></data>
+  <data name="Editor_PanelNotes" xml:space="preserve"><value>Notas de edición</value></data>
+  <data name="Editor_PlaceholderParagraph" xml:space="preserve"><value>Texto del párrafo...</value></data>
+  <data name="Editor_PlaceholderMeta" xml:space="preserve"><value>Explicación META...</value></data>
+  <data name="Editor_PlaceholderNotes" xml:space="preserve"><value>Sus notas de edición...</value></data>
+  <data name="Editor_SearchPlaceholder" xml:space="preserve"><value>Buscar en el texto del párrafo...</value></data>
   <data name="Btn_Search" xml:space="preserve"><value>Buscar</value></data>
   <data name="Label_WholeWord" xml:space="preserve"><value>Palabra completa</value></data>
   <data name="Editor_NavFirst" xml:space="preserve"><value>Primero</value></data>
   <data name="Editor_NavPrev" xml:space="preserve"><value>Anterior</value></data>
   <data name="Editor_NavNext" xml:space="preserve"><value>Siguiente</value></data>
-  <data name="Editor_NavLast" xml:space="preserve"><value>Ultimo</value></data>
-  <data name="Label_Position" xml:space="preserve"><value>Posicion:</value></data>
+  <data name="Editor_NavLast" xml:space="preserve"><value>Último</value></data>
+  <data name="Label_Position" xml:space="preserve"><value>Posición:</value></data>
   <data name="Label_Of" xml:space="preserve"><value>de</value></data>
-  <data name="Label_ChapterNav" xml:space="preserve"><value>Capitulo:</value></data>
+  <data name="Label_ChapterNav" xml:space="preserve"><value>Capítulo:</value></data>
   <data name="Label_GoTo" xml:space="preserve"><value>Ir a:</value></data>
   <data name="Btn_Go" xml:space="preserve"><value>Ir</value></data>
   <data name="Btn_Save" xml:space="preserve"><value>Guardar</value></data>
@@ -115,11 +115,11 @@
   <data name="Btn_GoToBookmark" xml:space="preserve"><value>Ir al marcador</value></data>
   <data name="Editor_NoBookmark" xml:space="preserve"><value>Sin marcador</value></data>
   <data name="Btn_InsBefore" xml:space="preserve"><value>Insertar antes</value></data>
-  <data name="Btn_InsAfter" xml:space="preserve"><value>Insertar despues</value></data>
-  <data name="Editor_TypeParagraph" xml:space="preserve"><value>Parrafo</value></data>
-  <data name="Editor_TypeEpigraph" xml:space="preserve"><value>Epigrafe</value></data>
+  <data name="Btn_InsAfter" xml:space="preserve"><value>Insertar después</value></data>
+  <data name="Editor_TypeParagraph" xml:space="preserve"><value>Párrafo</value></data>
+  <data name="Editor_TypeEpigraph" xml:space="preserve"><value>Epígrafe</value></data>
   <data name="Btn_Files" xml:space="preserve"><value>Archivos</value></data>
-  <data name="Confirm_DeleteParagraph" xml:space="preserve"><value>Eliminar este parrafo? Esta accion no se puede deshacer.</value></data>
+  <data name="Confirm_DeleteParagraph" xml:space="preserve"><value>¿Eliminar este párrafo? Esta acción no se puede deshacer.</value></data>
 
   <!-- ===== File Upload ===== -->
   <data name="FileUpload_SectionUpload" xml:space="preserve"><value>Subir archivos</value></data>
@@ -128,15 +128,15 @@
   <data name="FileUpload_NoLegacyFiles" xml:space="preserve"><value>No hay archivos de texto subidos.</value></data>
   <data name="FileUpload_ColFilename" xml:space="preserve"><value>Nombre de archivo</value></data>
   <data name="FileUpload_ColType" xml:space="preserve"><value>Tipo</value></data>
-  <data name="FileUpload_ColSize" xml:space="preserve"><value>Tamano</value></data>
+  <data name="FileUpload_ColSize" xml:space="preserve"><value>Tamaño</value></data>
   <data name="FileUpload_ColUploaded" xml:space="preserve"><value>Subido</value></data>
   <data name="FileUpload_ColActions" xml:space="preserve"><value>Acciones</value></data>
-  <data name="FileUpload_ImportLegacyTitle" xml:space="preserve"><value>Importar archivos de texto heredados</value></data>
+  <data name="FileUpload_ImportLegacyTitle" xml:space="preserve"><value>Importar archivos heredados</value></data>
   <data name="Btn_ImportAllFiles" xml:space="preserve"><value>Importar todos los archivos</value></data>
-  <data name="Btn_ImportLog" xml:space="preserve"><value>Registro de importacion</value></data>
+  <data name="Btn_ImportLog" xml:space="preserve"><value>Registro de importación</value></data>
   <data name="Btn_BackToProjects" xml:space="preserve"><value>Volver a proyectos</value></data>
   <data name="Btn_UploadFiles" xml:space="preserve"><value>Subir archivos</value></data>
-  <data name="Confirm_DeleteFile" xml:space="preserve"><value>Eliminar este archivo?</value></data>
-  <data name="Confirm_ImportFiles" xml:space="preserve"><value>Importar los archivos subidos? Los capitulos existentes se fusionaran (se anadiran parrafos nuevos, se actualizaran los que coincidan y se eliminaran los que ya no esten).</value></data>
+  <data name="Confirm_DeleteFile" xml:space="preserve"><value>¿Eliminar este archivo?</value></data>
+  <data name="Confirm_ImportFiles" xml:space="preserve"><value>¿Importar los archivos subidos? Los capítulos existentes se fusionarán (se añadirán párrafos nuevos, se actualizarán los que coincidan y se eliminarán los que ya no estén).</value></data>
 
 </root>
